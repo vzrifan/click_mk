@@ -13,8 +13,10 @@ class AppColors {
   static const textSecondary = Color(0xFF666666);
 
   static const accent = Color(0xFF1565C0);
+  static const shadow = Color(0x1A000000);
 
   static const border = Color(0xFFE0E0E0);
+  static const navbar = Color(0xFF9E9E9E);
 
   static const success = Color(0xFF2E7D32);
   static const warning = Color(0xFFED6C02);
