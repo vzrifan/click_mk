@@ -1,5 +1,5 @@
 import 'package:click_mk/core/network/dio_provider.dart';
-import 'package:click_mk/features/home/data/home_repository.dart';
+import 'package:click_mk/features/home/data/repositories/home_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:click_mk/features/home/data/models/jadwal_sidang.dart';
 

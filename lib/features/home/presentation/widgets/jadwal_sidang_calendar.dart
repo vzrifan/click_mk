@@ -147,7 +147,6 @@ class _JadwalSidangCalendarState extends ConsumerState<JadwalSidangCalendar> {
             ),
             const SizedBox(height: 4),
 
-            // Ganti grid dengan .when()
             asyncJadwal.when(
               loading: () => const Padding(
                 padding: EdgeInsets.symmetric(vertical: 40),
@@ -212,7 +211,6 @@ class _JadwalSidangCalendarState extends ConsumerState<JadwalSidangCalendar> {
       if (existing == null) {
         result[day] = (type, j.total);
       } else {
-        // Gabung: kalau tipe beda → keduanya, total dijumlah
         final mergedType = existing.$1 == type ? type : JadwalType.keduanya;
         result[day] = (mergedType, existing.$2 + j.total);
       }
@@ -268,9 +266,6 @@ class _JadwalSidangCalendarState extends ConsumerState<JadwalSidangCalendar> {
 
     return Column(children: rows);
   }
-
-  // _buildDayCell & _buildLegend SAMA PERSIS seperti kode lamamu,
-  // tidak perlu diubah. Copy paste saja.
 }
 
 Widget _buildDayCell(

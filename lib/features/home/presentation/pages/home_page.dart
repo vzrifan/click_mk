@@ -1,7 +1,9 @@
 import 'package:click_mk/core/constants/app_colors.dart';
+import 'package:click_mk/core/router/routes.dart';
 import 'package:click_mk/features/home/presentation/widgets/carousel.dart';
 import 'package:click_mk/features/home/presentation/widgets/jadwal_sidang_calendar.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -161,14 +163,54 @@ class HomePage extends StatelessWidget {
   }
 
   static const _menus = [
-    (Icons.gavel, 'Putusan', Colors.brown),
-    (Icons.assignment, 'Risalah', Colors.blue),
-    (Icons.description, 'Ikhtisar', Colors.redAccent),
-    (Icons.edit_document, 'Anotasi', Colors.orange),
-    (Icons.assignment, 'Permohonan Online', Colors.teal),
-    (Icons.app_registration, 'PUU & SKLN', Colors.pink),
-    (Icons.poll, 'Pilkada Serentak', Colors.green),
-    (Icons.polyline, 'PHPU & Pilpres', Colors.red),
+    (
+      icon: Icons.gavel,
+      title: 'Putusan',
+      color: Colors.brown,
+      path: AppRoutes.putusanName,
+    ),
+    (
+      icon: Icons.assignment,
+      title: 'Risalah',
+      color: Colors.blue,
+      path: AppRoutes.risalahName,
+    ),
+    (
+      icon: Icons.description,
+      title: 'Ikhtisar',
+      color: Colors.redAccent,
+      path: AppRoutes.ikhtisarName,
+    ),
+    (
+      icon: Icons.edit_document,
+      title: 'Anotasi',
+      color: Colors.orange,
+      path: AppRoutes.anotasiName,
+    ),
+    (
+      icon: Icons.assignment,
+      title: 'Permohonan Online',
+      color: Colors.teal,
+      path: AppRoutes.permohonanOnlineName,
+    ),
+    (
+      icon: Icons.app_registration,
+      title: 'PUU & SKLN',
+      color: Colors.pink,
+      path: AppRoutes.puuSklnName,
+    ),
+    (
+      icon: Icons.poll,
+      title: 'Pilkada Serentak',
+      color: Colors.green,
+      path: AppRoutes.pilkadaSerentakName,
+    ),
+    (
+      icon: Icons.polyline,
+      title: 'PHPU & Pilpres',
+      color: Colors.red,
+      path: AppRoutes.phpuPilpresName,
+    ),
   ];
 
   Widget _buildMenuGrid(BuildContext context) {
@@ -200,7 +242,13 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   width: itemWidth,
                   height: itemHeight,
-                  child: _buildMenuCard(context, menu.$1, menu.$2, menu.$3),
+                  child: _buildMenuCard(
+                    context,
+                    icon: menu.icon,
+                    title: menu.title,
+                    color: menu.color,
+                    path: menu.path,
+                  ),
                 ),
             ],
           ),
@@ -278,37 +326,41 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildMenuCard(
-    BuildContext context,
-    IconData icon,
-    String title,
-    Color color,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadow,
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 32, color: color),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2),
-            child: Text(
-              title,
-              style: const TextStyle(fontSize: 11, color: AppColors.text),
-              textAlign: TextAlign.center,
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required Color color,
+    required String path,
+  }) {
+    return GestureDetector(
+      onTap: () => context.go(path),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.shadow,
+              blurRadius: 6,
+              offset: const Offset(0, 2),
             ),
-          ),
-        ],
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 32, color: color),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: Text(
+                title,
+                style: const TextStyle(fontSize: 11, color: AppColors.text),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -39,7 +39,7 @@ class HakimPage extends StatelessWidget {
                   'name': 'Prof. Dr. Enny Nurbaningsih, S.H.,M.Hum.',
                   'term': '13 Agustus 2018 s/d 13 Agustus 2023',
                   'proposer': 'Presiden Joko Widodo',
-                  'image': 'https://i.pravatar.cc/150?img=5', // Female avatar
+                  'image': 'https://i.pravatar.cc/150?img=5',
                 },
                 {
                   'name': 'Dr. Daniel Yusmic Pancastaki Foekh, S.H., M.H.',
@@ -65,7 +65,7 @@ class HakimPage extends StatelessWidget {
   Widget _buildBanner() {
     return Container(
       decoration: const BoxDecoration(
-        color: Color(0xFFF3E5AB), // Light gold/yellow background
+        color: Color(0xFFF3E5AB),
       ),
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
