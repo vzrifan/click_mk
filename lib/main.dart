@@ -1,13 +1,19 @@
 import 'package:click_mk/app/theme.dart';
 import 'package:click_mk/core/constants/app_colors.dart';
-import 'package:click_mk/features/hakim/hakim_page.dart';
+import 'package:click_mk/features/hakim/presentation/pages/hakim_page.dart';
 import 'package:click_mk/features/hubungiMK/hubungi_mk_page.dart';
 import 'package:click_mk/features/peradilan/peradilan_page.dart';
 import 'package:click_mk/features/peraturan/peraturan_page.dart';
 import 'package:flutter/material.dart';
 import 'package:click_mk/features/home/presentation/pages/home_page.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() => runApp(const NavigationBarApp());
+void main() async {
+  await dotenv.load();
+
+  runApp(const ProviderScope(child: NavigationBarApp()));
+}
 
 class NavigationBarApp extends StatelessWidget {
   const NavigationBarApp({super.key});

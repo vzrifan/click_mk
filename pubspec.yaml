@@ -35,6 +35,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   carousel_slider: ^5.1.2
+  dio: ^5.11.1
+  flutter_riverpod: ^3.4.3
+  flutter_dotenv: ^6.0.1
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +64,7 @@ flutter:
     - assets/images/logo/
     - assets/fonts/
     - assets/animations/
+    - .env
 
   fonts:
     - family: Roboto
