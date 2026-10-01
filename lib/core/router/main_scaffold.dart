@@ -26,15 +26,15 @@ class MainScaffold extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: AppColors.shadow,
-              blurRadius: 8,
-              offset: Offset(0, -2),
+              blurRadius: 12,
+              offset: Offset(0, -3),
             ),
           ],
         ),
         child: SafeArea(
           top: false,
           child: SizedBox(
-            height: 60,
+            height: 64,
             child: Row(
               children: List.generate(_items.length, (index) {
                 final isSelected = navigationShell.currentIndex == index;
@@ -44,30 +44,46 @@ class MainScaffold extends StatelessWidget {
                       index,
                       initialLocation: index == navigationShell.currentIndex,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          _items[index].icon,
-                          size: 24,
-                          color: isSelected
-                              ? AppColors.primary
-                              : AppColors.navbar,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          _items[index].label,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: isSelected
-                                ? FontWeight.w600
-                                : FontWeight.normal,
+                    splashColor: AppColors.primary.withValues(alpha: 0.08),
+                    highlightColor: Colors.transparent,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeInOut,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 8),
+                      decoration: isSelected
+                          ? BoxDecoration(
+                              color:
+                                  AppColors.primary.withValues(alpha: 0.08),
+                              borderRadius: BorderRadius.circular(12),
+                            )
+                          : null,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            _items[index].icon,
+                            size: isSelected ? 24 : 22,
                             color: isSelected
                                 ? AppColors.primary
                                 : AppColors.navbar,
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 2),
+                          AnimatedDefaultTextStyle(
+                            duration: const Duration(milliseconds: 200),
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: isSelected
+                                  ? FontWeight.w700
+                                  : FontWeight.normal,
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : AppColors.navbar,
+                            ),
+                            child: Text(_items[index].label),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );

@@ -1,10 +1,12 @@
 import 'package:click_mk/core/constants/app_colors.dart';
+import 'package:click_mk/core/router/routes.dart';
 import 'package:click_mk/features/hakim/data/models/hakim.dart';
 import 'package:click_mk/features/hakim/presentation/widgets/hakim_card.dart';
 import 'package:click_mk/features/hakim/presentation/widgets/hakim_featured_card.dart';
 import 'package:click_mk/features/hakim/providers/hakim_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class HakimPage extends ConsumerWidget {
   const HakimPage({super.key});
@@ -35,8 +37,7 @@ class HakimPage extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
               TextButton(
-                onPressed: () =>
-                    ref.read(hakimListProvider.notifier).refresh(),
+                onPressed: () => ref.read(hakimListProvider.notifier).refresh(),
                 child: const Text('Coba lagi'),
               ),
             ],
@@ -82,8 +83,7 @@ class HakimPage extends ConsumerWidget {
           final hasFeatured = ketua.profileId != 0 || wakil.profileId != 0;
 
           return RefreshIndicator(
-            onRefresh: () =>
-                ref.read(hakimListProvider.notifier).refresh(),
+            onRefresh: () => ref.read(hakimListProvider.notifier).refresh(),
             child: ListView(
               padding: const EdgeInsets.all(12),
               children: [
@@ -96,7 +96,7 @@ class HakimPage extends ConsumerWidget {
                         Expanded(
                           child: HakimFeaturedCard(
                             hakim: ketua,
-                            accentColor: const Color(0xFF1E4E8C),
+                            accentColor: AppColors.primary,
                             onTap: () => _openDetail(context, ketua),
                           ),
                         ),
@@ -106,7 +106,7 @@ class HakimPage extends ConsumerWidget {
                         Expanded(
                           child: HakimFeaturedCard(
                             hakim: wakil,
-                            accentColor: const Color(0xFF3B7DB8),
+                            accentColor: AppColors.primary,
                             onTap: () => _openDetail(context, wakil),
                           ),
                         ),
@@ -131,10 +131,7 @@ class HakimPage extends ConsumerWidget {
 
                 // ── Daftar hakim lainnya ────────────
                 for (final h in others) ...[
-                  HakimCard(
-                    hakim: h,
-                    onTap: () => _openDetail(context, h),
-                  ),
+                  HakimCard(hakim: h, onTap: () => _openDetail(context, h)),
                   const SizedBox(height: 8),
                 ],
               ],
@@ -146,11 +143,10 @@ class HakimPage extends ConsumerWidget {
   }
 
   void _openDetail(BuildContext context, Hakim hakim) {
-    // Nanti diarahkan ke halaman detail
-    // context.pushNamed(
-    //   'hakim-detail',
-    //   pathParameters: {'id': hakim.profileId.toString()},
-    //   extra: hakim,
-    // );
+    context.pushNamed(
+      AppRoutes.hakimDetailName,
+      pathParameters: {'id': hakim.profileId.toString()},
+      extra: hakim,
+    );
   }
 }

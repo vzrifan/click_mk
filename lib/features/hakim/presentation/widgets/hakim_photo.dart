@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 const kHakimPhotoAspect = 421 / 631;
@@ -18,46 +19,39 @@ class HakimPhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final photo = url.isEmpty
-        ? Container(
-            color: Colors.grey.shade200,
-            child: const Center(
-              child: Icon(Icons.person, size: 36, color: Colors.grey),
-            ),
-          )
-        : Image.network(
-            url,
-            fit: BoxFit.cover,
-            errorBuilder: (_, _, _) => Container(
-              color: Colors.grey.shade200,
-              child: const Center(
-                child: Icon(Icons.person, size: 36, color: Colors.grey),
-              ),
-            ),
-            loadingBuilder: (context, child, progress) {
-              if (progress == null) return child;
-              return Container(
-                color: Colors.grey.shade100,
-                child: const Center(
-                  child: SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
-                ),
-              );
-            },
-          );
+    Widget photo;
+    if (url.isEmpty) {
+      photo = Container(
+        color: Colors.grey.shade200,
+        child: const Center(
+          child: Icon(Icons.person, size: 36, color: Colors.grey),
+        ),
+      );
+    } else {
+      photo = CachedNetworkImage(
+        imageUrl: url,
+        fit: BoxFit.cover,
+        // cache key eksplisit — supaya URL sama → cache sama
+        cacheKey: url,
+        fadeInDuration: Duration.zero,
+        fadeOutDuration: Duration.zero,
+        placeholder: (_, _) => Container(color: Colors.grey.shade100),
+        errorWidget: (_, _, _) => Container(
+          color: Colors.grey.shade200,
+          child: const Center(
+            child: Icon(Icons.person, size: 36, color: Colors.grey),
+          ),
+        ),
+      );
+    }
 
-    // Kalau width & height diberi, ukuran dipaksa kotak.
-    // Kalau hanya salah satu, rasio dipertahankan.
+    // Atur ukuran + rasio
     if (width != null && height != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
         child: SizedBox(width: width, height: height, child: photo),
       );
     }
-
     if (width != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
@@ -68,7 +62,6 @@ class HakimPhoto extends StatelessWidget {
         ),
       );
     }
-
     if (height != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
@@ -79,7 +72,6 @@ class HakimPhoto extends StatelessWidget {
         ),
       );
     }
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
       child: AspectRatio(aspectRatio: kHakimPhotoAspect, child: photo),

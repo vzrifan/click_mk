@@ -1,4 +1,6 @@
 import 'package:click_mk/core/router/main_scaffold.dart';
+import 'package:click_mk/features/hakim/data/models/hakim.dart';
+import 'package:click_mk/features/home/presentation/pages/hakim_detail_page.dart';
 import 'package:click_mk/features/putusan/data/models/putusan_jenis.dart';
 import 'package:click_mk/features/putusan/presentation/pages/putusan_page.dart';
 import 'package:click_mk/features/risalah/data/models/risalah_jenis.dart';
@@ -74,6 +76,23 @@ GoRouter createAppRouter() {
                 path: AppRoutes.hakim,
                 name: AppRoutes.hakimName,
                 builder: (context, state) => const HakimPage(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    name: AppRoutes.hakimDetailName,
+                    builder: (context, state) {
+                      final hakim = state.extra as Hakim?;
+                      if (hakim == null) {
+                        return const Scaffold(
+                          body: Center(
+                            child: Text('Data hakim tidak tersedia'),
+                          ),
+                        );
+                      }
+                      return HakimDetailPage(hakim: hakim);
+                    },
+                  ),
+                ],
               ),
             ],
           ),

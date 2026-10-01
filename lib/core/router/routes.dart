@@ -14,6 +14,7 @@ class AppRoutes {
   static const peradilan = '/peradilan';
 
   static const hakim = '/hakim';
+  static const hakimDetail = '/hakim/:id';
 
   static const peraturan = '/peraturan';
 
@@ -32,6 +33,7 @@ class AppRoutes {
   static const peradilanName = 'peradilan';
 
   static const hakimName = 'hakim';
+  static const hakimDetailName = 'hakim-detail';
 
   static const peraturanName = 'peraturan';
 

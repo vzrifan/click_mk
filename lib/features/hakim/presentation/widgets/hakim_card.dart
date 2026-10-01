@@ -46,14 +46,14 @@ class HakimCard extends StatelessWidget {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.blue.shade50,
+                        color: AppColors.primary,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
                         hakim.jabatan,
                         style: const TextStyle(
                           fontSize: 10,
-                          color: Colors.blue,
+                          color: Colors.white,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
