@@ -1,7 +1,6 @@
-import 'package:click_mk/core/utils/url_helper.dart';
+import 'package:click_mk/core/widgets/pagination_bar.dart';
 import 'package:click_mk/features/putusan/data/models/putusan_jenis.dart';
 import 'package:click_mk/features/putusan/presentation/widgets/putusan_download_button.dart';
-import 'package:click_mk/features/putusan/presentation/widgets/putusan_pagination_bar.dart';
 import 'package:click_mk/features/putusan/providers/putusan_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -139,7 +138,7 @@ class PutusanList extends ConsumerWidget {
                 ),
               ),
             ),
-            PutusanPaginationBar(
+            PaginationBar(
               currentPage: state.currentPage,
               totalPages: state.totalPages,
               onPageSelected: (page) =>

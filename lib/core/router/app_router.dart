@@ -1,5 +1,8 @@
 import 'package:click_mk/core/router/main_scaffold.dart';
+import 'package:click_mk/features/putusan/data/models/putusan_jenis.dart';
 import 'package:click_mk/features/putusan/presentation/pages/putusan_page.dart';
+import 'package:click_mk/features/risalah/data/models/risalah_jenis.dart';
+import 'package:click_mk/features/risalah/presentation/pages/risalah_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -35,7 +38,22 @@ GoRouter createAppRouter() {
                   GoRoute(
                     path: AppRoutes.putusan,
                     name: AppRoutes.putusanName,
-                    builder: (context, state) => const PutusanPage(),
+                    builder: (context, state) {
+                      final jenis = PutusanJenis.fromApi(
+                        state.uri.queryParameters['jenis'],
+                      );
+                      return PutusanPage(initialJenis: jenis);
+                    },
+                  ),
+                  GoRoute(
+                    path: 'risalah',
+                    name: AppRoutes.risalahName,
+                    builder: (context, state) {
+                      final jenis = RisalahJenis.fromApi(
+                        state.uri.queryParameters['jenis'],
+                      );
+                      return RisalahPage(initialJenis: jenis);
+                    },
                   ),
                 ],
               ),

@@ -1,8 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:click_mk/core/constants/app_colors.dart';
 import 'package:click_mk/core/router/routes.dart';
+import 'package:click_mk/core/utils/url_helper.dart';
+import 'package:click_mk/features/home/presentation/widgets/banner_slide.dart';
 import 'package:click_mk/features/home/presentation/widgets/carousel.dart';
 import 'package:click_mk/features/home/presentation/widgets/jadwal_sidang_calendar.dart';
+import 'package:click_mk/features/home/providers/banner_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
@@ -40,43 +45,39 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipPath(
-                    clipper: OvalBottomClipper(),
-                    child: Carousel(
-                      items: [
-                        Image.network(
-                          'https://placehold.net/1.png',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                        Image.network(
-                          'https://placehold.net/2.png',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                        Image.network(
-                          'https://placehold.net/3.png',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                        Image.network(
-                          'https://placehold.net/4.png',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                        Image.network(
-                          'https://placehold.net/5.png',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                        Image.network(
-                          'https://placehold.net/6.png',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                      ],
-                      height: MediaQuery.of(context).size.height * 0.25,
-                    ),
+                  Consumer(
+                    builder: (context, ref, _) {
+                      final asyncBanner = ref.watch(bannerListProvider);
+
+                      return asyncBanner.when(
+                        loading: () =>
+                            const Center(child: CircularProgressIndicator()),
+                        error: (_, _) => const SizedBox.shrink(),
+                        data: (banners) {
+                          if (banners.isEmpty) return const SizedBox.shrink();
+
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            for (final b in banners) {
+                              precacheImage(
+                                CachedNetworkImageProvider(b.imageUrl),
+                                context,
+                              );
+                            }
+                          });
+
+                          return Carousel(
+                            items: banners
+                                .map((b) => BannerSlide(banner: b))
+                                .toList(),
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            onItemTap: (i) {
+                              final url = banners[i].actionUrlAbsolute;
+                              if (url != null) UrlHelper.open(url);
+                            },
+                          );
+                        },
+                      );
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
@@ -166,49 +167,49 @@ class HomePage extends StatelessWidget {
     (
       icon: Icons.gavel,
       title: 'Putusan',
-      color: Colors.brown,
+      color: AppColors.primary,
       path: AppRoutes.putusanName,
     ),
     (
       icon: Icons.assignment,
       title: 'Risalah',
-      color: Colors.blue,
+      color: AppColors.primary,
       path: AppRoutes.risalahName,
     ),
     (
       icon: Icons.description,
       title: 'Ikhtisar',
-      color: Colors.redAccent,
+      color: AppColors.primary,
       path: AppRoutes.ikhtisarName,
     ),
     (
       icon: Icons.edit_document,
       title: 'Anotasi',
-      color: Colors.orange,
+      color: AppColors.primary,
       path: AppRoutes.anotasiName,
     ),
     (
-      icon: Icons.assignment,
+      icon: Icons.text_snippet,
       title: 'Permohonan Online',
-      color: Colors.teal,
+      color: AppColors.primary,
       path: AppRoutes.permohonanOnlineName,
     ),
     (
       icon: Icons.app_registration,
       title: 'PUU & SKLN',
-      color: Colors.pink,
+      color: AppColors.primary,
       path: AppRoutes.puuSklnName,
     ),
     (
       icon: Icons.poll,
       title: 'Pilkada Serentak',
-      color: Colors.green,
+      color: AppColors.primary,
       path: AppRoutes.pilkadaSerentakName,
     ),
     (
       icon: Icons.polyline,
       title: 'PHPU & Pilpres',
-      color: Colors.red,
+      color: AppColors.primary,
       path: AppRoutes.phpuPilpresName,
     ),
   ];
