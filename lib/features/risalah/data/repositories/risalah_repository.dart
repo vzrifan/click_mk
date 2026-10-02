@@ -11,6 +11,7 @@ class RisalahRepository {
     RisalahJenis jenis = RisalahJenis.all,
     int currentPage = 1,
     int itemsPerPage = 10,
+    String search = '',
   }) async {
     final response = await _client.get<Map<String, dynamic>>(
       ApiEndpoints.risalah,
@@ -18,6 +19,7 @@ class RisalahRepository {
         'current_page': currentPage,
         'items_per_page': itemsPerPage,
         'jenis': jenis.apiValue,
+        if (search.isNotEmpty) 'search': search,
       },
     );
 

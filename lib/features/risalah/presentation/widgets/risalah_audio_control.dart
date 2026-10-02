@@ -10,7 +10,7 @@ class RisalahAudioControl extends StatefulWidget {
   });
 
   final String url;
-  final String title; // nomor perkara, untuk label
+  final String title;
 
   @override
   State<RisalahAudioControl> createState() => _RisalahAudioControlState();
@@ -45,10 +45,8 @@ class _RisalahAudioControlState extends State<RisalahAudioControl> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // ── Baris kontrol ─────────────────
               Row(
                 children: [
-                  // Play/Pause
                   IconButton(
                     onPressed: isBuffering
                         ? null
@@ -69,7 +67,6 @@ class _RisalahAudioControlState extends State<RisalahAudioControl> {
                     tooltip: isPlaying ? 'Pause' : 'Putar',
                   ),
 
-                  // Skip -10s
                   if (isThisActive)
                     IconButton(
                       iconSize: 22,
@@ -84,7 +81,6 @@ class _RisalahAudioControlState extends State<RisalahAudioControl> {
                       tooltip: 'Mundur 10 detik',
                     ),
 
-                  // Skip +10s
                   if (isThisActive)
                     IconButton(
                       iconSize: 22,
@@ -100,7 +96,6 @@ class _RisalahAudioControlState extends State<RisalahAudioControl> {
 
                   const SizedBox(width: 4),
 
-                  // Judul
                   Expanded(
                     child: Text(
                       isThisActive ? 'Sedang diputar' : 'Putar audio sidang',
@@ -115,7 +110,6 @@ class _RisalahAudioControlState extends State<RisalahAudioControl> {
                     ),
                   ),
 
-                  // Stop (hanya saat aktif)
                   if (isThisActive)
                     IconButton(
                       iconSize: 20,
@@ -126,7 +120,6 @@ class _RisalahAudioControlState extends State<RisalahAudioControl> {
                 ],
               ),
 
-              // ── Progress bar (hanya saat aktif) ──
               if (isThisActive) _buildProgressBar(),
             ],
           ),

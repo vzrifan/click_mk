@@ -1,5 +1,6 @@
 import 'package:click_mk/core/utils/url_helper.dart';
 import 'package:click_mk/core/widgets/pagination_bar.dart';
+import 'package:click_mk/core/widgets/search_field.dart';
 import 'package:click_mk/features/risalah/data/models/risalah.dart';
 import 'package:click_mk/features/risalah/data/models/risalah_jenis.dart';
 import 'package:click_mk/features/risalah/presentation/widgets/risalah_audio_control.dart';
@@ -15,57 +16,101 @@ class RisalahList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(risalahListProvider(jenis));
+    final notifier = ref.read(risalahListProvider(jenis).notifier);
 
-    return asyncState.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, _) => Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.error_outline, color: Colors.red),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Text(err.toString(), textAlign: TextAlign.center),
-            ),
-            const SizedBox(height: 8),
-            TextButton(
-              onPressed: () =>
-                  ref.read(risalahListProvider(jenis).notifier).refresh(),
-              child: const Text('Coba lagi'),
-            ),
-          ],
+    return Column(
+      children: [
+        SearchField(
+          hintText: 'Cari risalah...',
+          onChanged: (value) => notifier.setSearch(value),
         ),
-      ),
-      data: (state) {
-        if (state.items.isEmpty) {
-          return const Center(child: Text('Belum ada risalah'));
-        }
-        return Column(
-          children: [
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: () =>
-                    ref.read(risalahListProvider(jenis).notifier).refresh(),
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(12),
-                  itemCount: state.items.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 8),
-                  itemBuilder: (context, i) {
-                    return _RisalahCard(risalah: state.items[i]);
-                  },
-                ),
+        Expanded(
+          child: asyncState.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (err, _) => Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.error_outline, color: Colors.red),
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(err.toString(), textAlign: TextAlign.center),
+                  ),
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: () => notifier.refresh(),
+                    child: const Text('Coba lagi'),
+                  ),
+                ],
               ),
             ),
-            PaginationBar(
-              currentPage: state.currentPage,
-              totalPages: state.totalPages,
-              onPageSelected: (page) =>
-                  ref.read(risalahListProvider(jenis).notifier).goToPage(page),
-            ),
-          ],
-        );
-      },
+            data: (state) {
+              if (state.items.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.search_off,
+                        size: 48,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        state.search.isNotEmpty
+                            ? 'Tidak ada hasil untuk "${state.search}"'
+                            : 'Belum ada risalah',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return Column(
+                children: [
+                  if (state.search.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '${state.totalItems} hasil untuk "${state.search}"',
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () => notifier.refresh(),
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(12),
+                        itemCount: state.items.length,
+                        separatorBuilder: (_, _) => const SizedBox(height: 8),
+                        itemBuilder: (context, i) =>
+                            _RisalahCard(risalah: state.items[i]),
+                      ),
+                    ),
+                  ),
+                  PaginationBar(
+                    currentPage: state.currentPage,
+                    totalPages: state.totalPages,
+                    onPageSelected: (page) => notifier.goToPage(page),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -85,7 +130,6 @@ class _RisalahCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
             Row(
               children: [
                 Container(
@@ -138,7 +182,6 @@ class _RisalahCard extends StatelessWidget {
               style: const TextStyle(fontSize: 12),
             ),
 
-            // Tombol PDF
             if (risalah.hasPdf) ...[
               const SizedBox(height: 12),
               SizedBox(
@@ -158,7 +201,6 @@ class _RisalahCard extends StatelessWidget {
               ),
             ],
 
-            // Audio control (inline)
             if (risalah.hasAudio)
               RisalahAudioControl(
                 url: risalah.supportingFileAudio,

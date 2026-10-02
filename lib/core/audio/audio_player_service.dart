@@ -17,8 +17,6 @@ class AudioPlayerService {
 
   bool isActive(String url) => _currentUrl == url;
 
-  /// Kalau URL sama: toggle play/pause.
-  /// Kalau URL beda: ganti sumber dan langsung play.
   Future<void> toggle(String url) async {
     if (_currentUrl == url) {
       if (_player.playing) {

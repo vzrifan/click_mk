@@ -32,7 +32,6 @@ class PaginationBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Prev
             IconButton(
               onPressed: currentPage > 1
                   ? () => onPageSelected(currentPage - 1)

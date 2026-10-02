@@ -19,7 +19,6 @@ class BannerSlide extends StatelessWidget {
           imageUrl: banner.imageUrl,
           fit: BoxFit.cover,
           width: double.infinity,
-          // Placeholder halus, tidak mencolok
           placeholder: (context, url) => Container(
             color: Colors.grey.shade100,
             child: const Center(

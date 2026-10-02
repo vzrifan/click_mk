@@ -134,7 +134,6 @@ class _CarouselState extends State<Carousel> {
                 ),
               ),
 
-              // ── Tombol Prev/Next ────────────────
               if (hasMultiple) ...[
                 Positioned(
                   left: 8,
@@ -187,7 +186,6 @@ class _CarouselState extends State<Carousel> {
           ),
         ),
 
-        // ── Indikator ───────────────────────────
         if (hasMultiple)
           Padding(
             padding: const EdgeInsets.only(top: 10),

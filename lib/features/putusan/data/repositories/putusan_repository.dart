@@ -11,6 +11,7 @@ class PutusanRepository {
     PutusanJenis jenis = PutusanJenis.all,
     int currentPage = 1,
     int itemsPerPage = 10,
+    String search = '',
   }) async {
     final response = await _client.get<Map<String, dynamic>>(
       ApiEndpoints.putusan,
@@ -18,6 +19,7 @@ class PutusanRepository {
         'current_page': currentPage,
         'items_per_page': itemsPerPage,
         'jenis': jenis.apiValue,
+        if (search.isNotEmpty) 'search': search,
       },
     );
 

@@ -31,7 +31,6 @@ class HakimPhoto extends StatelessWidget {
       photo = CachedNetworkImage(
         imageUrl: url,
         fit: BoxFit.cover,
-        // cache key eksplisit — supaya URL sama → cache sama
         cacheKey: url,
         fadeInDuration: Duration.zero,
         fadeOutDuration: Duration.zero,
@@ -45,7 +44,6 @@ class HakimPhoto extends StatelessWidget {
       );
     }
 
-    // Atur ukuran + rasio
     if (width != null && height != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),

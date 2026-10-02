@@ -13,12 +13,14 @@ class PutusanListState {
   final int currentPage;
   final int totalPages;
   final int totalItems;
+  final String search;
 
   const PutusanListState({
     this.items = const [],
     this.currentPage = 1,
     this.totalPages = 1,
     this.totalItems = 0,
+    this.search = '',
   });
 
   PutusanListState copyWith({
@@ -26,12 +28,14 @@ class PutusanListState {
     int? currentPage,
     int? totalPages,
     int? totalItems,
+    String? search,
   }) {
     return PutusanListState(
       items: items ?? this.items,
       currentPage: currentPage ?? this.currentPage,
       totalPages: totalPages ?? this.totalPages,
       totalItems: totalItems ?? this.totalItems,
+      search: search ?? this.search,
     );
   }
 }
@@ -44,24 +48,27 @@ class PutusanListNotifier extends AsyncNotifier<PutusanListState> {
 
   @override
   Future<PutusanListState> build() async {
-    return _fetch(1);
+    return _fetch(1, '');
   }
 
-  Future<PutusanListState> _fetch(int page) async {
+  Future<PutusanListState> _fetch(int page, String search) async {
     final repo = ref.read(putusanRepositoryProvider);
     final result = await repo.getPutusan(
       jenis: arg,
       currentPage: page,
       itemsPerPage: _itemsPerPage,
+      search: search,
     );
     return PutusanListState(
       items: result.items,
       currentPage: result.currentPage,
       totalPages: result.totalPages,
       totalItems: result.totalItems,
+      search: search,
     );
   }
 
+  /// Ganti halaman — pertahankan search.
   Future<void> goToPage(int page) async {
     final current = state.asData?.value;
     if (current != null && current.currentPage == page) return;
@@ -69,25 +76,24 @@ class PutusanListNotifier extends AsyncNotifier<PutusanListState> {
     final maxPage = current?.totalPages ?? 1;
     if (page < 1 || page > maxPage) return;
 
+    final search = current?.search ?? '';
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _fetch(page));
+    state = await AsyncValue.guard(() => _fetch(page, search));
   }
 
-  Future<void> nextPage() async {
+  /// Update search — reset ke halaman 1.
+  Future<void> setSearch(String search) async {
     final current = state.asData?.value;
-    if (current == null) return;
-    await goToPage(current.currentPage + 1);
-  }
+    if (current != null && current.search == search) return;
 
-  Future<void> prevPage() async {
-    final current = state.asData?.value;
-    if (current == null) return;
-    await goToPage(current.currentPage - 1);
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => _fetch(1, search));
   }
 
   Future<void> refresh() async {
+    final search = state.asData?.value.search ?? '';
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _fetch(1));
+    state = await AsyncValue.guard(() => _fetch(1, search));
   }
 }
 

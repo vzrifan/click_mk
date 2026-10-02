@@ -48,7 +48,6 @@ class HakimPage extends ConsumerWidget {
             return const Center(child: Text('Belum ada data hakim'));
           }
 
-          // Pisahkan Ketua, Wakil, dan sisanya
           final ketua = list.firstWhere(
             (h) => h.isKetua,
             orElse: () => const Hakim(
@@ -87,7 +86,6 @@ class HakimPage extends ConsumerWidget {
             child: ListView(
               padding: const EdgeInsets.all(12),
               children: [
-                // ── Ketua & Wakil sejajar ───────────
                 if (hasFeatured)
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +111,6 @@ class HakimPage extends ConsumerWidget {
                     ],
                   ),
 
-                // ── Divider + label ─────────────────
                 if (hasFeatured && others.isNotEmpty) ...[
                   const SizedBox(height: 20),
                   const Padding(
@@ -129,7 +126,6 @@ class HakimPage extends ConsumerWidget {
                   ),
                 ],
 
-                // ── Daftar hakim lainnya ────────────
                 for (final h in others) ...[
                   HakimCard(hakim: h, onTap: () => _openDetail(context, h)),
                   const SizedBox(height: 8),

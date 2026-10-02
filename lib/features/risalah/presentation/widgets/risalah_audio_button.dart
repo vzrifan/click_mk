@@ -11,7 +11,6 @@ class RisalahAudioButton extends StatefulWidget {
 
   final String url;
 
-  /// Kalau true, tampilkan hanya ikon. Kalau false, tampilkan ikon + label.
   final bool isCompact;
 
   @override

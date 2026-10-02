@@ -27,7 +27,6 @@ class HakimDetailPage extends StatelessWidget {
             _buildHeader(context),
             const SizedBox(height: 8),
 
-            // ── Riwayat Jabatan ────────────────
             if (hakim.masaJabatan.isNotEmpty) ...[
               _buildSection(
                 title: 'Riwayat Jabatan',
@@ -40,7 +39,6 @@ class HakimDetailPage extends StatelessWidget {
               const SizedBox(height: 8),
             ],
 
-            // ── Profil (HTML) ──────────────────
             if (hakim.profilHtml.isNotEmpty)
               _buildSection(
                 title: 'Profil',
@@ -73,7 +71,6 @@ class HakimDetailPage extends StatelessWidget {
     );
   }
 
-  // ── Header ──────────────────────────────────
   Widget _buildHeader(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -118,7 +115,6 @@ class HakimDetailPage extends StatelessWidget {
     );
   }
 
-  // ── Section wrapper ─────────────────────────
   Widget _buildSection({required String title, required Widget child}) {
     return Container(
       width: double.infinity,
@@ -142,7 +138,6 @@ class HakimDetailPage extends StatelessWidget {
     );
   }
 
-  // ── Baris masa jabatan ──────────────────────
   Widget _buildMasaJabatanRow(dynamic m) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),

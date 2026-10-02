@@ -13,12 +13,14 @@ class RisalahListState {
   final int currentPage;
   final int totalPages;
   final int totalItems;
+  final String search; // ⬅ harus ada
 
   const RisalahListState({
     this.items = const [],
     this.currentPage = 1,
     this.totalPages = 1,
     this.totalItems = 0,
+    this.search = '',
   });
 
   RisalahListState copyWith({
@@ -26,39 +28,42 @@ class RisalahListState {
     int? currentPage,
     int? totalPages,
     int? totalItems,
+    String? search,
   }) {
     return RisalahListState(
       items: items ?? this.items,
       currentPage: currentPage ?? this.currentPage,
       totalPages: totalPages ?? this.totalPages,
       totalItems: totalItems ?? this.totalItems,
+      search: search ?? this.search,
     );
   }
 }
 
 class RisalahListNotifier extends AsyncNotifier<RisalahListState> {
   RisalahListNotifier(this.arg);
-
   final RisalahJenis arg;
   static const _itemsPerPage = 10;
 
   @override
   Future<RisalahListState> build() async {
-    return _fetch(1);
+    return _fetch(1, '');
   }
 
-  Future<RisalahListState> _fetch(int page) async {
+  Future<RisalahListState> _fetch(int page, String search) async {
     final repo = ref.read(risalahRepositoryProvider);
     final result = await repo.getRisalah(
       jenis: arg,
       currentPage: page,
       itemsPerPage: _itemsPerPage,
+      search: search,
     );
     return RisalahListState(
       items: result.items,
       currentPage: result.currentPage,
       totalPages: result.totalPages,
       totalItems: result.totalItems,
+      search: search,
     );
   }
 
@@ -69,13 +74,24 @@ class RisalahListNotifier extends AsyncNotifier<RisalahListState> {
     final maxPage = current?.totalPages ?? 1;
     if (page < 1 || page > maxPage) return;
 
+    final search = current?.search ?? '';
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _fetch(page));
+    state = await AsyncValue.guard(() => _fetch(page, search));
+  }
+
+  /// ⬅ method baru
+  Future<void> setSearch(String search) async {
+    final current = state.asData?.value;
+    if (current != null && current.search == search) return;
+
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => _fetch(1, search));
   }
 
   Future<void> refresh() async {
+    final search = state.asData?.value.search ?? '';
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _fetch(1));
+    state = await AsyncValue.guard(() => _fetch(1, search));
   }
 }
 
