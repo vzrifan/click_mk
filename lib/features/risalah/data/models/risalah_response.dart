@@ -1,14 +1,14 @@
-import 'package:click_mk/features/putusan/data/models/putusan.dart';
+import 'package:click_mk/features/risalah/data/models/risalah.dart';
 
-class PutusanPage {
-  final List<Putusan> items;
+class RisalahResponse {
+  final List<Risalah> items;
   final int totalItems;
   final int itemCount;
   final int itemsPerPage;
   final int totalPages;
   final int currentPage;
 
-  const PutusanPage({
+  const RisalahResponse({
     required this.items,
     required this.totalItems,
     required this.itemCount,
@@ -19,13 +19,13 @@ class PutusanPage {
 
   bool get hasNextPage => currentPage < totalPages;
 
-  factory PutusanPage.fromJson(Map<String, dynamic> json) {
+  factory RisalahResponse.fromJson(Map<String, dynamic> json) {
     final itemsJson = (json['items'] as List<dynamic>? ?? []);
     final meta = (json['meta'] as Map<String, dynamic>? ?? {});
 
-    return PutusanPage(
+    return RisalahResponse(
       items: itemsJson
-          .map((e) => Putusan.fromJson(e as Map<String, dynamic>))
+          .map((e) => Risalah.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalItems: meta['totalItems'] as int? ?? 0,
       itemCount: meta['itemCount'] as int? ?? 0,

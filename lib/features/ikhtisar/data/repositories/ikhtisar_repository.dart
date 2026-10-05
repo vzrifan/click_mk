@@ -1,13 +1,13 @@
 import 'package:click_mk/core/network/api_endpoints.dart';
 import 'package:click_mk/core/network/dio_client.dart';
 import 'package:click_mk/features/ikhtisar/data/models/ikhtisar_jenis.dart';
-import 'package:click_mk/features/ikhtisar/data/models/ikhtisar_page.dart';
+import 'package:click_mk/features/ikhtisar/data/models/ikhtisar_response.dart';
 
 class IkhtisarRepository {
   final DioClient _client;
   IkhtisarRepository(this._client);
 
-  Future<IkhtisarPage> getIkhtisar({
+  Future<IkhtisarResponse> getIkhtisar({
     IkhtisarJenis jenis = IkhtisarJenis.all,
     int currentPage = 1,
     int itemsPerPage = 10,
@@ -22,6 +22,6 @@ class IkhtisarRepository {
         if (search.isNotEmpty) 'search': search,
       },
     );
-    return IkhtisarPage.fromJson(response.data ?? const {});
+    return IkhtisarResponse.fromJson(response.data ?? const {});
   }
 }

@@ -1,13 +1,13 @@
 import 'package:click_mk/features/ikhtisar/data/models/ikhtisar.dart';
 
-class IkhtisarPage {
+class IkhtisarResponse {
   final List<Ikhtisar> items;
   final int totalPages;
   final int itemPerPage;
   final int totalItems;
   final int currentPage;
 
-  const IkhtisarPage({
+  const IkhtisarResponse({
     required this.items,
     required this.totalPages,
     required this.itemPerPage,
@@ -15,11 +15,11 @@ class IkhtisarPage {
     required this.currentPage,
   });
 
-  factory IkhtisarPage.fromJson(Map<String, dynamic> json) {
+  factory IkhtisarResponse.fromJson(Map<String, dynamic> json) {
     final itemsJson = (json['items'] as List<dynamic>? ?? []);
     final meta = (json['meta'] as Map<String, dynamic>? ?? {});
 
-    return IkhtisarPage(
+    return IkhtisarResponse(
       items: itemsJson
           .map((e) => Ikhtisar.fromJson(e as Map<String, dynamic>))
           .toList(),
