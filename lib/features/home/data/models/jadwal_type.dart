@@ -12,6 +12,7 @@ extension JadwalTypeX on JadwalType {
         return JadwalType.keduanya;
       case 'TUNDA':
         return JadwalType.tunda;
+      case 'HARI_LIBUR':
       case 'LIBUR':
         return JadwalType.libur;
       default:

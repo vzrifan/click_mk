@@ -49,6 +49,24 @@ class _JadwalSidangCalendarState extends ConsumerState<JadwalSidangCalendar> {
     _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month + 1);
   });
 
+  Future<void> _refresh() async {
+    ref.invalidate(
+      jadwalSidangProvider((
+        month: _focusedMonth.month,
+        year: _focusedMonth.year,
+      )),
+    );
+
+    try {
+      await ref.read(
+        jadwalSidangProvider((
+          month: _focusedMonth.month,
+          year: _focusedMonth.year,
+        )).future,
+      );
+    } catch (_) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     final asyncJadwal = ref.watch(
@@ -112,6 +130,14 @@ class _JadwalSidangCalendarState extends ConsumerState<JadwalSidangCalendar> {
                 ),
                 const Spacer(),
                 IconButton(
+                  onPressed: _refresh,
+                  icon: const Icon(Icons.refresh, size: 18),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  tooltip: 'Refresh',
+                ),
+                const SizedBox(width: 8),
+                IconButton(
                   onPressed: _prevMonth,
                   icon: const Icon(Icons.chevron_left),
                   padding: EdgeInsets.zero,
@@ -166,12 +192,7 @@ class _JadwalSidangCalendarState extends ConsumerState<JadwalSidangCalendar> {
                       ),
                       const SizedBox(height: 8),
                       TextButton(
-                        onPressed: () => ref.invalidate(
-                          jadwalSidangProvider((
-                            month: _focusedMonth.month,
-                            year: _focusedMonth.year,
-                          )),
-                        ),
+                        onPressed: _refresh,
                         child: const Text('Coba lagi'),
                       ),
                     ],
@@ -266,6 +287,40 @@ class _JadwalSidangCalendarState extends ConsumerState<JadwalSidangCalendar> {
 
     return Column(children: rows);
   }
+
+  Widget _buildLegend() {
+    final items = [
+      ('Sidang', Colors.green, false),
+      ('Putusan', Colors.blue, false),
+      ('Keduanya', Colors.purple, false),
+      ('Tunda', Colors.red, false),
+      ('Libur', Colors.red, true),
+    ];
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: items.map((item) {
+        return Column(
+          children: [
+            Container(
+              width: 28,
+              height: 28,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: item.$3 ? Colors.transparent : item.$2,
+                border: item.$3 ? Border.all(color: item.$2, width: 1.5) : null,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              item.$1,
+              style: const TextStyle(fontSize: 10, color: AppColors.text),
+            ),
+          ],
+        );
+      }).toList(),
+    );
+  }
 }
 
 Widget _buildDayCell(
@@ -275,10 +330,10 @@ Widget _buildDayCell(
   bool isOtherMonth = false,
 }) {
   final hasEvent = type != JadwalType.none && !isOtherMonth;
-  final bgColor = hasEvent
+  final isLibur = type == JadwalType.libur && !isOtherMonth;
+  final bgColor = hasEvent && !isLibur
       ? _JadwalSidangCalendarState._colorForType(type)
       : Colors.transparent;
-  final isLibur = type == JadwalType.libur && !isOtherMonth;
 
   return LayoutBuilder(
     builder: (context, constraints) {
@@ -303,7 +358,7 @@ Widget _buildDayCell(
               children: [
                 SizedBox(
                   height: countFontSize + 4,
-                  child: count != null && !isOtherMonth
+                  child: count != null && !isOtherMonth && !isLibur
                       ? Align(
                           alignment: Alignment.topRight,
                           child: Text(
@@ -331,7 +386,7 @@ Widget _buildDayCell(
                       '$day',
                       style: TextStyle(
                         fontSize: dayFontSize,
-                        fontWeight: hasEvent
+                        fontWeight: hasEvent && !isLibur
                             ? FontWeight.bold
                             : FontWeight.normal,
                         color: isOtherMonth
@@ -349,39 +404,5 @@ Widget _buildDayCell(
         ),
       );
     },
-  );
-}
-
-Widget _buildLegend() {
-  final items = [
-    ('Sidang', Colors.green, false),
-    ('Putusan', Colors.blue, false),
-    ('Keduanya', Colors.purple, false),
-    ('Tunda', Colors.red, false),
-    ('Libur', Colors.red, true),
-  ];
-
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: items.map((item) {
-      return Column(
-        children: [
-          Container(
-            width: 28,
-            height: 28,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: item.$3 ? Colors.transparent : item.$2,
-              border: item.$3 ? Border.all(color: item.$2, width: 1.5) : null,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            item.$1,
-            style: const TextStyle(fontSize: 10, color: AppColors.text),
-          ),
-        ],
-      );
-    }).toList(),
   );
 }
