@@ -1,3 +1,4 @@
+import 'package:click_mk/core/utils/date_formatter.dart';
 import 'package:click_mk/core/widgets/pagination_bar.dart';
 import 'package:click_mk/core/widgets/search_field.dart';
 import 'package:click_mk/features/putusan/data/models/putusan_jenis.dart';
@@ -19,13 +20,11 @@ class PutusanList extends ConsumerWidget {
 
     return Column(
       children: [
-        // ── Search bar (selalu tampil) ────────
         SearchField(
           hintText: 'Cari putusan...',
           onChanged: (value) => notifier.setSearch(value),
         ),
 
-        // ── Konten ────────────────────────────
         Expanded(
           child: asyncState.when(
             loading: () => const Center(child: CircularProgressIndicator()),
@@ -73,7 +72,6 @@ class PutusanList extends ConsumerWidget {
 
               return Column(
                 children: [
-                  // Info jumlah hasil
                   if (state.search.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -158,6 +156,24 @@ class PutusanList extends ConsumerWidget {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,
                                       ),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.calendar_today_outlined,
+                                          size: 12,
+                                          color: Colors.grey,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          DateFormatter.tanggalWaktuWib(p.date),
+                                          style: const TextStyle(
+                                            fontSize: 11,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     const SizedBox(height: 4),
                                     Text(

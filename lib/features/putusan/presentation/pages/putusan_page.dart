@@ -1,6 +1,7 @@
 import 'package:click_mk/core/constants/app_colors.dart';
 import 'package:click_mk/core/router/routes.dart';
 import 'package:click_mk/features/putusan/data/models/putusan_jenis.dart';
+import 'package:click_mk/features/putusan/presentation/widgets/putusan_header.dart';
 import 'package:click_mk/features/putusan/presentation/widgets/putusan_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,11 +68,19 @@ class _PutusanPageState extends ConsumerState<PutusanPage>
           }).toList(),
         ),
       ),
-      body: TabBarView(
-        controller: _tab,
-        children: PutusanJenis.values
-            .map((jenis) => PutusanList(jenis: jenis))
-            .toList(),
+      body: Column(
+        children: [
+          const PutusanHeader(),
+
+          Expanded(
+            child: TabBarView(
+              controller: _tab,
+              children: PutusanJenis.values
+                  .map((jenis) => PutusanList(jenis: jenis))
+                  .toList(),
+            ),
+          ),
+        ],
       ),
     );
   }

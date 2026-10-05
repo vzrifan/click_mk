@@ -1,148 +1,219 @@
 import 'package:click_mk/core/constants/app_colors.dart';
 import 'package:click_mk/core/router/routes.dart';
 import 'package:click_mk/features/hakim/data/models/hakim.dart';
-import 'package:click_mk/features/hakim/presentation/widgets/hakim_card.dart';
-import 'package:click_mk/features/hakim/presentation/widgets/hakim_featured_card.dart';
+import 'package:click_mk/features/hakim/data/models/jabatan_filter.dart';
+import 'package:click_mk/features/hakim/presentation/widgets/hakim_plain_list.dart';
+import 'package:click_mk/features/hakim/presentation/widgets/hakim_section.dart';
 import 'package:click_mk/features/hakim/providers/hakim_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class HakimPage extends ConsumerWidget {
+class HakimPage extends ConsumerStatefulWidget {
   const HakimPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final asyncHakim = ref.watch(hakimListProvider);
+  ConsumerState<HakimPage> createState() => _HakimPageState();
+}
 
+class _HakimPageState extends ConsumerState<HakimPage>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tab;
+
+  @override
+  void initState() {
+    super.initState();
+    _tab = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tab.dispose();
+    super.dispose();
+  }
+
+  void _openDetail(Hakim hakim) {
+    context.pushNamed(
+      AppRoutes.hakimDetailName,
+      pathParameters: {'id': hakim.idHakim.toString()},
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundSecondary,
       appBar: AppBar(
         backgroundColor: AppColors.primaryDark,
         foregroundColor: Colors.white,
-        elevation: 0,
         title: const Text('Hakim Konstitusi'),
-      ),
-      body: asyncHakim.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, _) => Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.error_outline, color: Colors.red),
-              const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Text(err.toString(), textAlign: TextAlign.center),
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: () => ref.read(hakimListProvider.notifier).refresh(),
-                child: const Text('Coba lagi'),
-              ),
-            ],
+        bottom: TabBar(
+          controller: _tab,
+          indicatorColor: Colors.white,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.white70,
+          labelStyle: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 13,
           ),
+          tabs: const [
+            Tab(text: 'Hakim Konstitusi'),
+            Tab(text: 'Hakim Periode Sebelumnya'),
+          ],
         ),
-        data: (list) {
-          if (list.isEmpty) {
-            return const Center(child: Text('Belum ada data hakim'));
-          }
+      ),
+      body: TabBarView(
+        controller: _tab,
+        children: [
+          _TabSekarang(onTapHakim: _openDetail),
 
-          final ketua = list.firstWhere(
-            (h) => h.isKetua,
-            orElse: () => const Hakim(
-              profileId: 0,
-              namaLengkap: '',
-              jabatan: '',
-              profilePictureUrl: '',
-              status: 0,
-              profilHtml: '',
-              nomorUrut: 0,
-              masaJabatan: [],
-            ),
-          );
-          final wakil = list.firstWhere(
-            (h) => h.isWakilKetua,
-            orElse: () => const Hakim(
-              profileId: 0,
-              namaLengkap: '',
-              jabatan: '',
-              profilePictureUrl: '',
-              status: 0,
-              profilHtml: '',
-              nomorUrut: 0,
-              masaJabatan: [],
-            ),
-          );
-
-          final others = list
-              .where((h) => !h.isKetua && !h.isWakilKetua)
-              .toList();
-
-          final hasFeatured = ketua.profileId != 0 || wakil.profileId != 0;
-
-          return RefreshIndicator(
-            onRefresh: () => ref.read(hakimListProvider.notifier).refresh(),
-            child: ListView(
-              padding: const EdgeInsets.all(12),
-              children: [
-                if (hasFeatured)
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (ketua.profileId != 0)
-                        Expanded(
-                          child: HakimFeaturedCard(
-                            hakim: ketua,
-                            accentColor: AppColors.primary,
-                            onTap: () => _openDetail(context, ketua),
-                          ),
-                        ),
-                      if (ketua.profileId != 0 && wakil.profileId != 0)
-                        const SizedBox(width: 10),
-                      if (wakil.profileId != 0)
-                        Expanded(
-                          child: HakimFeaturedCard(
-                            hakim: wakil,
-                            accentColor: AppColors.primary,
-                            onTap: () => _openDetail(context, wakil),
-                          ),
-                        ),
-                    ],
-                  ),
-
-                if (hasFeatured && others.isNotEmpty) ...[
-                  const SizedBox(height: 20),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 4, bottom: 8),
-                    child: Text(
-                      'Hakim Konstitusi',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.text,
-                      ),
-                    ),
-                  ),
-                ],
-
-                for (final h in others) ...[
-                  HakimCard(hakim: h, onTap: () => _openDetail(context, h)),
-                  const SizedBox(height: 8),
-                ],
-              ],
-            ),
-          );
-        },
+          _TabSebelumnya(onTapHakim: _openDetail),
+        ],
       ),
     );
   }
+}
 
-  void _openDetail(BuildContext context, Hakim hakim) {
-    context.pushNamed(
-      AppRoutes.hakimDetailName,
-      pathParameters: {'id': hakim.profileId.toString()},
-      extra: hakim,
+class _TabSekarang extends ConsumerWidget {
+  const _TabSekarang({required this.onTapHakim});
+
+  final void Function(Hakim) onTapHakim;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final asyncList = ref.watch(hakimSekarangProvider);
+
+    return asyncList.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, _) => _ErrorView(
+        error: err,
+        onRetry: () => ref.read(hakimSekarangProvider.notifier).refresh(),
+      ),
+      data: (list) => HakimSection(
+        list: list,
+        onRefresh: () => ref.read(hakimSekarangProvider.notifier).refresh(),
+        onTapHakim: onTapHakim,
+      ),
+    );
+  }
+}
+
+class _TabSebelumnya extends StatefulWidget {
+  const _TabSebelumnya({required this.onTapHakim});
+
+  final void Function(Hakim) onTapHakim;
+
+  @override
+  State<_TabSebelumnya> createState() => _TabSebelumnyaState();
+}
+
+class _TabSebelumnyaState extends State<_TabSebelumnya>
+    with SingleTickerProviderStateMixin {
+  late final TabController _subTab;
+  static const _filters = [
+    JabatanFilter.ketua,
+    JabatanFilter.wakil,
+    JabatanFilter.hakimKonstitusi,
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _subTab = TabController(length: _filters.length, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _subTab.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Material(
+          color: Colors.white,
+          child: TabBar(
+            controller: _subTab,
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            labelColor: AppColors.primary,
+            unselectedLabelColor: Colors.grey,
+            indicatorColor: AppColors.primary,
+            labelStyle: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 13,
+            ),
+            tabs: _filters.map((f) => Tab(text: f.label)).toList(),
+          ),
+        ),
+
+        Expanded(
+          child: TabBarView(
+            controller: _subTab,
+            children: _filters
+                .map(
+                  (f) =>
+                      _SubTabHakim(jabatan: f, onTapHakim: widget.onTapHakim),
+                )
+                .toList(),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SubTabHakim extends ConsumerWidget {
+  const _SubTabHakim({required this.jabatan, required this.onTapHakim});
+
+  final JabatanFilter jabatan;
+  final void Function(Hakim) onTapHakim;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final asyncList = ref.watch(hakimSebelumnyaProvider(jabatan));
+
+    return asyncList.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, _) => _ErrorView(
+        error: err,
+        onRetry: () =>
+            ref.read(hakimSebelumnyaProvider(jabatan).notifier).refresh(),
+      ),
+      data: (list) => HakimPlainList(
+        list: list,
+        onRefresh: () =>
+            ref.read(hakimSebelumnyaProvider(jabatan).notifier).refresh(),
+        onTapHakim: onTapHakim,
+      ),
+    );
+  }
+}
+
+class _ErrorView extends StatelessWidget {
+  const _ErrorView({required this.error, required this.onRetry});
+
+  final Object error;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.error_outline, color: Colors.red),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Text(error.toString(), textAlign: TextAlign.center),
+          ),
+          const SizedBox(height: 8),
+          TextButton(onPressed: onRetry, child: const Text('Coba lagi')),
+        ],
+      ),
     );
   }
 }

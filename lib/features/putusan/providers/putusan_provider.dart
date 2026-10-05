@@ -68,7 +68,6 @@ class PutusanListNotifier extends AsyncNotifier<PutusanListState> {
     );
   }
 
-  /// Ganti halaman — pertahankan search.
   Future<void> goToPage(int page) async {
     final current = state.asData?.value;
     if (current != null && current.currentPage == page) return;
@@ -81,7 +80,6 @@ class PutusanListNotifier extends AsyncNotifier<PutusanListState> {
     state = await AsyncValue.guard(() => _fetch(page, search));
   }
 
-  /// Update search — reset ke halaman 1.
   Future<void> setSearch(String search) async {
     final current = state.asData?.value;
     if (current != null && current.search == search) return;

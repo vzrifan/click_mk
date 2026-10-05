@@ -13,17 +13,11 @@ class MasaJabatan {
 
   factory MasaJabatan.fromJson(Map<String, dynamic> json) {
     return MasaJabatan(
-      jabatan: json['jabatan'] as String? ?? '',
-      lembagaPengusul: json['lembagaPengusul'] as String?,
+      jabatan: json['jabatan']?.toString() ?? '',
+      lembagaPengusul: (json['lembagaPengusul'] ?? json['lembaga_pengusul'])
+          ?.toString(),
       tahunMenjabat: json['tahun_menjabat']?.toString() ?? '',
       tahunSelesaiMenjabat: json['tahun_selesai_menjabat']?.toString() ?? '',
     );
   }
-
-  Map<String, dynamic> toJson() => {
-    'jabatan': jabatan,
-    'lembagaPengusul': lembagaPengusul,
-    'tahun_menjabat': tahunMenjabat,
-    'tahun_selesai_menjabat': tahunSelesaiMenjabat,
-  };
 }

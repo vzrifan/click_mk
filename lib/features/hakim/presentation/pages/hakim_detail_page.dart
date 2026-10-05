@@ -1,17 +1,22 @@
 import 'package:click_mk/core/constants/app_colors.dart';
 import 'package:click_mk/features/hakim/data/models/hakim.dart';
+import 'package:click_mk/features/hakim/data/models/masa_jabatan.dart';
 import 'package:click_mk/features/hakim/presentation/widgets/hakim_photo.dart';
+import 'package:click_mk/features/hakim/providers/hakim_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HakimDetailPage extends StatelessWidget {
-  const HakimDetailPage({super.key, required this.hakim});
+class HakimDetailPage extends ConsumerWidget {
+  const HakimDetailPage({super.key, required this.id});
 
-  final Hakim hakim;
+  final int id;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final asyncHakim = ref.watch(hakimDetailProvider(id));
+
     return Scaffold(
       backgroundColor: AppColors.backgroundSecondary,
       appBar: AppBar(
@@ -20,61 +25,83 @@ class HakimDetailPage extends StatelessWidget {
         elevation: 0,
         title: const Text('Profil Hakim'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(context),
-            const SizedBox(height: 8),
-
-            if (hakim.masaJabatan.isNotEmpty) ...[
-              _buildSection(
-                title: 'Riwayat Jabatan',
-                child: Column(
-                  children: hakim.masaJabatan
-                      .map((m) => _buildMasaJabatanRow(m))
-                      .toList(),
-                ),
+      body: asyncHakim.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (err, _) => Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.error_outline, color: Colors.red),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Text(err.toString(), textAlign: TextAlign.center),
               ),
               const SizedBox(height: 8),
-            ],
-
-            if (hakim.profilHtml.isNotEmpty)
-              _buildSection(
-                title: 'Profil',
-                child: HtmlWidget(
-                  hakim.profilHtml,
-                  textStyle: const TextStyle(
-                    fontSize: 13,
-                    height: 1.6,
-                    color: AppColors.text,
-                  ),
-                  onTapUrl: (url) async {
-                    final uri = Uri.tryParse(url);
-                    if (uri == null) return false;
-                    if (await canLaunchUrl(uri)) {
-                      await launchUrl(
-                        uri,
-                        mode: LaunchMode.externalApplication,
-                      );
-                      return true;
-                    }
-                    return false;
-                  },
-                ),
+              TextButton(
+                onPressed: () => ref.invalidate(hakimDetailProvider(id)),
+                child: const Text('Coba lagi'),
               ),
-
-            const SizedBox(height: 24),
-          ],
+            ],
+          ),
         ),
+        data: (hakim) => _buildContent(context, hakim),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildContent(BuildContext context, Hakim hakim) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(hakim),
+          const SizedBox(height: 8),
+
+          if (hakim.masaJabatan.isNotEmpty) ...[
+            _buildSection(
+              title: 'Riwayat Jabatan',
+              child: Column(
+                children: hakim.masaJabatan
+                    .map((m) => _buildMasaJabatanRow(m))
+                    .toList(),
+              ),
+            ),
+            const SizedBox(height: 8),
+          ],
+
+          if (hakim.profilHtml.isNotEmpty)
+            _buildSection(
+              title: 'Profil',
+              child: HtmlWidget(
+                hakim.profilHtml,
+                textStyle: const TextStyle(
+                  fontSize: 13,
+                  height: 1.6,
+                  color: AppColors.text,
+                ),
+                onTapUrl: (url) async {
+                  final uri = Uri.tryParse(url);
+                  if (uri == null) return false;
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                    return true;
+                  }
+                  return false;
+                },
+              ),
+            ),
+
+          const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader(Hakim hakim) {
     return Container(
       width: double.infinity,
-      decoration: const BoxDecoration(color: Colors.white),
+      color: Colors.white,
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
       child: Column(
         children: [
@@ -138,7 +165,7 @@ class HakimDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMasaJabatanRow(dynamic m) {
+  Widget _buildMasaJabatanRow(MasaJabatan m) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
@@ -163,11 +190,10 @@ class HakimDetailPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  m.jabatan as String,
+                  m.jabatan,
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.text,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -176,7 +202,7 @@ class HakimDetailPage extends StatelessWidget {
                   style: const TextStyle(fontSize: 11, color: Colors.grey),
                 ),
                 if (m.lembagaPengusul != null &&
-                    (m.lembagaPengusul as String).isNotEmpty) ...[
+                    m.lembagaPengusul!.isNotEmpty) ...[
                   const SizedBox(height: 2),
                   Text(
                     'Diusulkan: ${m.lembagaPengusul}',

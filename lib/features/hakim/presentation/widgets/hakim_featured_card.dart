@@ -32,17 +32,15 @@ class HakimFeaturedCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // ── Foto (kecil, di tengah) ─────────
               Center(
                 child: HakimPhoto(
                   url: hakim.profilePictureUrl,
-                  height: 120, // ⬅ dari 180+ → 120
+                  height: 120,
                   borderRadius: 10,
                 ),
               ),
               const SizedBox(height: 8),
 
-              // ── Badge jabatan ───────────────────
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                 decoration: BoxDecoration(
@@ -64,7 +62,6 @@ class HakimFeaturedCard extends StatelessWidget {
               ),
               const SizedBox(height: 6),
 
-              // ── Nama ────────────────────────────
               Text(
                 hakim.namaLengkap,
                 textAlign: TextAlign.center,

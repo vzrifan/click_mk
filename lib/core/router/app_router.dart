@@ -1,6 +1,6 @@
 import 'package:click_mk/core/router/main_scaffold.dart';
-import 'package:click_mk/features/hakim/data/models/hakim.dart';
-import 'package:click_mk/features/home/presentation/pages/hakim_detail_page.dart';
+import 'package:click_mk/features/hakim/presentation/pages/hakim_detail_page.dart';
+import 'package:click_mk/features/ikhtisar/data/models/ikhtisar_jenis.dart';
 import 'package:click_mk/features/putusan/data/models/putusan_jenis.dart';
 import 'package:click_mk/features/putusan/presentation/pages/putusan_page.dart';
 import 'package:click_mk/features/risalah/data/models/risalah_jenis.dart';
@@ -14,6 +14,8 @@ import 'package:click_mk/features/home/presentation/pages/home_page.dart';
 import 'package:click_mk/features/hubungiMK/hubungi_mk_page.dart';
 import 'package:click_mk/features/peradilan/peradilan_page.dart';
 import 'package:click_mk/features/peraturan/peraturan_page.dart';
+
+import '../../features/ikhtisar/presentation/pages/ikhtisar_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -48,13 +50,23 @@ GoRouter createAppRouter() {
                     },
                   ),
                   GoRoute(
-                    path: 'risalah',
+                    path: AppRoutes.risalah,
                     name: AppRoutes.risalahName,
                     builder: (context, state) {
                       final jenis = RisalahJenis.fromApi(
                         state.uri.queryParameters['jenis'],
                       );
                       return RisalahPage(initialJenis: jenis);
+                    },
+                  ),
+                  GoRoute(
+                    path: AppRoutes.ikhtisar,
+                    name: AppRoutes.ikhtisarName,
+                    builder: (context, state) {
+                      final jenis = IkhtisarJenis.fromApi(
+                        state.uri.queryParameters['jenis'],
+                      );
+                      return IkhtisarPage(initialJenis: jenis);
                     },
                   ),
                 ],
@@ -81,15 +93,13 @@ GoRouter createAppRouter() {
                     path: ':id',
                     name: AppRoutes.hakimDetailName,
                     builder: (context, state) {
-                      final hakim = state.extra as Hakim?;
-                      if (hakim == null) {
+                      final id = int.tryParse(state.pathParameters['id'] ?? '');
+                      if (id == null) {
                         return const Scaffold(
-                          body: Center(
-                            child: Text('Data hakim tidak tersedia'),
-                          ),
+                          body: Center(child: Text('ID hakim tidak valid')),
                         );
                       }
-                      return HakimDetailPage(hakim: hakim);
+                      return HakimDetailPage(id: id);
                     },
                   ),
                 ],

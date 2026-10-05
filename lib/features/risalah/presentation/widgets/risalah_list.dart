@@ -1,3 +1,4 @@
+import 'package:click_mk/core/utils/date_formatter.dart';
 import 'package:click_mk/core/utils/url_helper.dart';
 import 'package:click_mk/core/widgets/pagination_bar.dart';
 import 'package:click_mk/core/widgets/search_field.dart';
@@ -181,6 +182,21 @@ class _RisalahCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 12),
             ),
+            const SizedBox(height: 6),
+            Row(
+              children: [
+                const Icon(
+                  Icons.calendar_today_outlined,
+                  size: 12,
+                  color: Colors.grey,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  DateFormatter.tanggalWaktuWib(risalah.date),
+                  style: const TextStyle(fontSize: 11, color: Colors.grey),
+                ),
+              ],
+            ),
 
             if (risalah.hasPdf) ...[
               const SizedBox(height: 12),
@@ -189,10 +205,7 @@ class _RisalahCard extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: () => UrlHelper.open(risalah.supportingFile),
                   icon: const Icon(Icons.picture_as_pdf_outlined, size: 16),
-                  label: const Text(
-                    'Lihat PDF',
-                    style: TextStyle(fontSize: 12),
-                  ),
+                  label: const Text('File PDF', style: TextStyle(fontSize: 12)),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     minimumSize: const Size(0, 36),

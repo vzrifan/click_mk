@@ -1,13 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:click_mk/core/constants/app_colors.dart';
 import 'package:click_mk/features/hakim/data/models/hakim.dart';
-import 'package:click_mk/features/hakim/presentation/widgets/hakim_photo.dart';
 import 'package:flutter/material.dart';
 
 class HakimCard extends StatelessWidget {
-  const HakimCard({super.key, required this.hakim, this.onTap});
+  const HakimCard({
+    super.key,
+    required this.hakim,
+    this.onTap,
+    this.showJabatan = true,
+  });
 
   final Hakim hakim;
   final VoidCallback? onTap;
+  final bool showJabatan;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +29,38 @@ class HakimCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HakimPhoto(url: hakim.profilePictureUrl, width: 56),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: SizedBox(
+                  width: 56,
+                  height: 84,
+                  child: hakim.profilePictureUrl.isEmpty
+                      ? Container(
+                          color: Colors.grey.shade200,
+                          child: const Icon(
+                            Icons.person,
+                            size: 28,
+                            color: Colors.grey,
+                          ),
+                        )
+                      : CachedNetworkImage(
+                          imageUrl: hakim.profilePictureUrl,
+                          fit: BoxFit.cover,
+                          placeholder: (_, _) =>
+                              Container(color: Colors.grey.shade100),
+                          errorWidget: (_, _, _) => Container(
+                            color: Colors.grey.shade200,
+                            child: const Icon(
+                              Icons.person,
+                              size: 28,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                ),
+              ),
               const SizedBox(width: 10),
+
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,25 +75,29 @@ class HakimCard extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        hakim.jabatan,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
+
+                    if (showJabatan) ...[
+                      const SizedBox(height: 4),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.secondary.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          hakim.jabatan,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                    ),
+                    ],
+
                     if (hakim.masaJabatan.isNotEmpty) ...[
                       const SizedBox(height: 6),
                       Text(

@@ -13,7 +13,7 @@ class RisalahListState {
   final int currentPage;
   final int totalPages;
   final int totalItems;
-  final String search; // ⬅ harus ada
+  final String search;
 
   const RisalahListState({
     this.items = const [],
@@ -79,7 +79,6 @@ class RisalahListNotifier extends AsyncNotifier<RisalahListState> {
     state = await AsyncValue.guard(() => _fetch(page, search));
   }
 
-  /// ⬅ method baru
   Future<void> setSearch(String search) async {
     final current = state.asData?.value;
     if (current != null && current.search == search) return;

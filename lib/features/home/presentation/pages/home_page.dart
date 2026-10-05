@@ -334,7 +334,7 @@ class HomePage extends StatelessWidget {
     required String path,
   }) {
     return GestureDetector(
-      onTap: () => context.go(path),
+      onTap: () => context.goNamed(path),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
