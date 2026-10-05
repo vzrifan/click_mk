@@ -10,6 +10,7 @@ class AppRoutes {
   static const puuSkln = '/puu-skln';
   static const pilkadaSerentak = '/pilkada-serentak';
   static const phpuPilpres = '/phpu-pilpres';
+  static const jadwalSidang = '/jadwal-sidang';
 
   static const peradilan = '/peradilan';
 
@@ -29,6 +30,7 @@ class AppRoutes {
   static const puuSklnName = 'puu-skln';
   static const pilkadaSerentakName = 'pilkada-serentak';
   static const phpuPilpresName = 'phpu-pilpres';
+  static const jadwalSidangName = 'jadwal-sidang';
 
   static const peradilanName = 'peradilan';
 

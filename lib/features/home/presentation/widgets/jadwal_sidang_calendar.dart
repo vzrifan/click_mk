@@ -1,9 +1,11 @@
 import 'package:click_mk/core/constants/app_colors.dart';
+import 'package:click_mk/core/router/routes.dart';
 import 'package:click_mk/features/home/data/models/jadwal_sidang.dart';
 import 'package:click_mk/features/home/data/models/jadwal_type.dart';
 import 'package:click_mk/features/home/providers/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class JadwalSidangCalendar extends ConsumerStatefulWidget {
   const JadwalSidangCalendar({super.key});
@@ -106,7 +108,7 @@ class _JadwalSidangCalendarState extends ConsumerState<JadwalSidangCalendar> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () => context.goNamed(AppRoutes.jadwalSidangName),
                   child: const Text(
                     'Selengkapnya',
                     style: TextStyle(

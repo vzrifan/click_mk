@@ -2,6 +2,7 @@ import 'package:click_mk/core/router/main_scaffold.dart';
 import 'package:click_mk/features/anotasi/presentation/pages/anotasi_page.dart';
 import 'package:click_mk/features/hakim/presentation/pages/hakim_detail_page.dart';
 import 'package:click_mk/features/ikhtisar/data/models/ikhtisar_jenis.dart';
+import 'package:click_mk/features/jadwal_sidang/presentations/pages/jadwal_sidang_page.dart';
 import 'package:click_mk/features/putusan/data/models/putusan_jenis.dart';
 import 'package:click_mk/features/putusan/presentation/pages/putusan_page.dart';
 import 'package:click_mk/features/risalah/data/models/risalah_jenis.dart';
@@ -12,7 +13,7 @@ import 'package:go_router/go_router.dart';
 import 'package:click_mk/core/router/routes.dart';
 import 'package:click_mk/features/hakim/presentation/pages/hakim_page.dart';
 import 'package:click_mk/features/home/presentation/pages/home_page.dart';
-import 'package:click_mk/features/hubungiMK/hubungi_mk_page.dart';
+import 'package:click_mk/features/hubungi_mk/hubungi_mk_page.dart';
 import 'package:click_mk/features/peradilan/peradilan_page.dart';
 import 'package:click_mk/features/peraturan/peraturan_page.dart';
 
@@ -71,9 +72,14 @@ GoRouter createAppRouter() {
                     },
                   ),
                   GoRoute(
-                    path: 'anotasi',
+                    path: AppRoutes.anotasi,
                     name: AppRoutes.anotasiName,
                     builder: (context, state) => const AnotasiPage(),
+                  ),
+                  GoRoute(
+                    path: AppRoutes.jadwalSidang,
+                    name: AppRoutes.jadwalSidangName,
+                    builder: (context, state) => const JadwalSidangPage(),
                   ),
                 ],
               ),
