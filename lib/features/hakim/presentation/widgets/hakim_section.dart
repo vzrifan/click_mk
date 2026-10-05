@@ -40,31 +40,26 @@ class HakimSection extends ConsumerWidget {
         padding: const EdgeInsets.all(12),
         children: [
           if (hasFeatured)
-            Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 600),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (ketua.idHakim != 0)
-                      Expanded(
-                        child: HakimFeaturedCard(
-                          hakim: ketua,
-                          onTap: () => onTapHakim(ketua),
-                        ),
-                      ),
-                    if (ketua.idHakim != 0 && wakil.idHakim != 0)
-                      const SizedBox(width: 12),
-                    if (wakil.idHakim != 0)
-                      Expanded(
-                        child: HakimFeaturedCard(
-                          hakim: wakil,
-                          onTap: () => onTapHakim(wakil),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (ketua.idHakim != 0)
+                  Expanded(
+                    child: HakimFeaturedCard(
+                      hakim: ketua,
+                      onTap: () => onTapHakim(ketua),
+                    ),
+                  ),
+                if (ketua.idHakim != 0 && wakil.idHakim != 0)
+                  const SizedBox(width: 12),
+                if (wakil.idHakim != 0)
+                  Expanded(
+                    child: HakimFeaturedCard(
+                      hakim: wakil,
+                      onTap: () => onTapHakim(wakil),
+                    ),
+                  ),
+              ],
             ),
 
           if (hasFeatured && others.isNotEmpty) ...[
