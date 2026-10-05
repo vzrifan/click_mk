@@ -6,6 +6,7 @@ class ApiEndpoints {
   static const putusan = '/putusan';
   static const risalah = '/risalah';
   static const ikhtisar = '/ikhtisar';
+  static const anotasi = '/anotasi';
 
   static const hakim = '/hakim';
 }

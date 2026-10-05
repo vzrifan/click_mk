@@ -1,4 +1,5 @@
 import 'package:click_mk/core/router/main_scaffold.dart';
+import 'package:click_mk/features/anotasi/presentation/pages/anotasi_page.dart';
 import 'package:click_mk/features/hakim/presentation/pages/hakim_detail_page.dart';
 import 'package:click_mk/features/ikhtisar/data/models/ikhtisar_jenis.dart';
 import 'package:click_mk/features/putusan/data/models/putusan_jenis.dart';
@@ -68,6 +69,11 @@ GoRouter createAppRouter() {
                       );
                       return IkhtisarPage(initialJenis: jenis);
                     },
+                  ),
+                  GoRoute(
+                    path: 'anotasi',
+                    name: AppRoutes.anotasiName,
+                    builder: (context, state) => const AnotasiPage(),
                   ),
                 ],
               ),
