@@ -13,6 +13,8 @@ class AppRoutes {
   static const jadwalSidang = '/jadwal-sidang';
   static const pengumuman = '/pengumuman';
   static const videoMkri = '/video-mkri';
+  static const berita = '/berita';
+  static const beritaDetail = '/berita/:id';
 
   static const peradilan = '/peradilan';
 
@@ -35,6 +37,8 @@ class AppRoutes {
   static const jadwalSidangName = 'jadwal-sidang';
   static const pengumumanName = 'pengumuman';
   static const videoMkriName = 'video-mkri';
+  static const beritaName = 'berita';
+  static const beritaDetailName = 'berita-detail';
 
   static const peradilanName = 'peradilan';
 

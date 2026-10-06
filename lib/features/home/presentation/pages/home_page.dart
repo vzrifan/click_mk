@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:click_mk/core/constants/app_colors.dart';
 import 'package:click_mk/core/router/routes.dart';
+import 'package:click_mk/features/berita/presentation/widgets/berita_section.dart';
+import 'package:click_mk/features/berita/providers/berita_provider.dart';
 import 'package:click_mk/features/home/presentation/widgets/banner_carousel.dart';
 import 'package:click_mk/features/home/presentation/widgets/jadwal_sidang_calendar.dart';
 import 'package:click_mk/features/home/providers/banner_provider.dart';
@@ -80,6 +82,8 @@ class HomePage extends ConsumerWidget {
               const SizedBox(height: 16),
               const VideoMkriSection(),
               const SizedBox(height: 16),
+              const BeritaSection(),
+              const SizedBox(height: 16),
               _buildHorizontalSection('Portal Mahkamah Konstitusi', [
                 _buildImageCard(
                   'https://picsum.photos/250?image=10',
@@ -148,6 +152,7 @@ class HomePage extends ConsumerWidget {
     ref.invalidate(jadwalSidangProvider((month: now.month, year: now.year)));
     ref.invalidate(pengumumanHighlightProvider);
     ref.invalidate(videoMkriProvider);
+    ref.invalidate(beritaHighlightProvider);
 
     try {
       await Future.wait([
@@ -157,6 +162,7 @@ class HomePage extends ConsumerWidget {
         ),
         ref.read(pengumumanHighlightProvider.future),
         ref.read(videoMkriProvider.future),
+        ref.read(beritaHighlightProvider.future),
       ]);
     } catch (_) {}
   }

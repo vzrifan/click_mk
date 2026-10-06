@@ -1,5 +1,6 @@
 import 'package:click_mk/core/router/main_scaffold.dart';
 import 'package:click_mk/features/anotasi/presentation/pages/anotasi_page.dart';
+import 'package:click_mk/features/berita/presentation/pages/berita_page.dart';
 import 'package:click_mk/features/hakim/presentation/pages/hakim_detail_page.dart';
 import 'package:click_mk/features/ikhtisar/data/models/ikhtisar_jenis.dart';
 import 'package:click_mk/features/jadwal_sidang/presentations/pages/jadwal_sidang_page.dart';
@@ -92,6 +93,11 @@ GoRouter createAppRouter() {
                     path: AppRoutes.videoMkri,
                     name: AppRoutes.videoMkriName,
                     builder: (context, state) => const VideoMkriPage(),
+                  ),
+                  GoRoute(
+                    path: AppRoutes.berita,
+                    name: AppRoutes.beritaName,
+                    builder: (context, state) => const BeritaPage(),
                   ),
                 ],
               ),

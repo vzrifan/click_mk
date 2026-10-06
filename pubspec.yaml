@@ -43,6 +43,9 @@ dependencies:
   just_audio: ^0.10.6
   flutter_widget_from_html_core: ^0.17.4
   youtube_player_iframe: ^6.0.2
+  intl: ^0.20.3
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
