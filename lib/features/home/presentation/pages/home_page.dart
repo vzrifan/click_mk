@@ -228,6 +228,4 @@ class HomePage extends ConsumerWidget {
       ),
     );
   }
-
-
 }

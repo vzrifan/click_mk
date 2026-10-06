@@ -22,6 +22,10 @@ class AppRoutes {
   static const hakimDetail = '/hakim/:id';
 
   static const peraturan = '/peraturan';
+  static const peraturanMk = '/peraturan/mk';
+  static const peraturanKetuaMk = '/peraturan/ketua-mk';
+  static const peraturanSekjen = '/peraturan/sekjen';
+  static const peraturanUud = '/peraturan/uud';
 
   static const hubungiMk = '/hubungi-mk';
 
@@ -46,6 +50,10 @@ class AppRoutes {
   static const hakimDetailName = 'hakim-detail';
 
   static const peraturanName = 'peraturan';
+  static const peraturanMkName = 'peraturan-mk';
+  static const peraturanKetuaMkName = 'peraturan-ketua-mk';
+  static const peraturanSekjenName = 'peraturan-sekjen';
+  static const peraturanUudName = 'peraturan-uud';
 
   static const hubungiMkName = 'hubungi-mk';
 }

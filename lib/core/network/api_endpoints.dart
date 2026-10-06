@@ -1,3 +1,5 @@
+import 'package:click_mk/features/peraturan/data/models/peraturan_endpoint.dart';
+
 class ApiEndpoints {
   ApiEndpoints._();
 
@@ -13,6 +15,10 @@ class ApiEndpoints {
   static const videoMkri = '/video-mkri';
   static const vicon = '/vicon';
   static const berita = '/berita-mkri';
+
+  static const peraturanGrafik = '/peraturan/grafik-peraturan';
+  static const peraturanList = PeraturanEndpoint;
+  static const peraturanUud = '/peraturan/uud';
 
   static const hakim = '/hakim';
 }
