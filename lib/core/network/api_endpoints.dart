@@ -10,6 +10,8 @@ class ApiEndpoints {
   static const anotasi = '/anotasi';
   static const pengumuman = '/pengumuman';
   static const pengumumanHighlight = '/pengumuman/highlight';
+  static const videoMkri = '/video-mkri';
+  static const vicon = '/vicon';
 
   static const hakim = '/hakim';
 }

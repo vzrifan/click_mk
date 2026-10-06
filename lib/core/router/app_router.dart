@@ -8,6 +8,7 @@ import 'package:click_mk/features/putusan/data/models/putusan_jenis.dart';
 import 'package:click_mk/features/putusan/presentation/pages/putusan_page.dart';
 import 'package:click_mk/features/risalah/data/models/risalah_jenis.dart';
 import 'package:click_mk/features/risalah/presentation/pages/risalah_page.dart';
+import 'package:click_mk/features/video_mkri/presentation/pages/video_mkri_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -86,6 +87,11 @@ GoRouter createAppRouter() {
                     path: AppRoutes.pengumuman,
                     name: AppRoutes.pengumumanName,
                     builder: (context, state) => const PengumumanPage(),
+                  ),
+                  GoRoute(
+                    path: AppRoutes.videoMkri,
+                    name: AppRoutes.videoMkriName,
+                    builder: (context, state) => const VideoMkriPage(),
                   ),
                 ],
               ),

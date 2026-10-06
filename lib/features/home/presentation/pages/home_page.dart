@@ -7,6 +7,8 @@ import 'package:click_mk/features/home/providers/banner_provider.dart';
 import 'package:click_mk/features/home/providers/home_provider.dart';
 import 'package:click_mk/features/pengumuman/data/providers/pengumuman_provider.dart';
 import 'package:click_mk/features/pengumuman/presentation/widgets/pengumuman_highlight.dart';
+import 'package:click_mk/features/video_mkri/presentation/widgets/video_mkri_section.dart';
+import 'package:click_mk/features/video_mkri/providers/video_mkri_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -76,6 +78,8 @@ class HomePage extends ConsumerWidget {
               const SizedBox(height: 16),
               const PengumumanHighlight(),
               const SizedBox(height: 16),
+              const VideoMkriSection(),
+              const SizedBox(height: 16),
               _buildHorizontalSection('Portal Mahkamah Konstitusi', [
                 _buildImageCard(
                   'https://picsum.photos/250?image=10',
@@ -143,6 +147,7 @@ class HomePage extends ConsumerWidget {
     ref.invalidate(bannerListProvider);
     ref.invalidate(jadwalSidangProvider((month: now.month, year: now.year)));
     ref.invalidate(pengumumanHighlightProvider);
+    ref.invalidate(videoMkriProvider);
 
     try {
       await Future.wait([
@@ -151,6 +156,7 @@ class HomePage extends ConsumerWidget {
           jadwalSidangProvider((month: now.month, year: now.year)).future,
         ),
         ref.read(pengumumanHighlightProvider.future),
+        ref.read(videoMkriProvider.future),
       ]);
     } catch (_) {}
   }
