@@ -131,13 +131,6 @@ class _JadwalSidangCalendarState extends ConsumerState<JadwalSidangCalendar> {
                   ),
                 ),
                 const Spacer(),
-                IconButton(
-                  onPressed: _refresh,
-                  icon: const Icon(Icons.refresh, size: 18),
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  tooltip: 'Refresh',
-                ),
                 const SizedBox(width: 8),
                 IconButton(
                   onPressed: _prevMonth,

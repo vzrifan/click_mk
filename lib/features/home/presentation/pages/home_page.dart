@@ -5,6 +5,8 @@ import 'package:click_mk/features/home/presentation/widgets/banner_carousel.dart
 import 'package:click_mk/features/home/presentation/widgets/jadwal_sidang_calendar.dart';
 import 'package:click_mk/features/home/providers/banner_provider.dart';
 import 'package:click_mk/features/home/providers/home_provider.dart';
+import 'package:click_mk/features/pengumuman/data/providers/pengumuman_provider.dart';
+import 'package:click_mk/features/pengumuman/presentation/widgets/pengumuman_highlight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -72,6 +74,8 @@ class HomePage extends ConsumerWidget {
               const SizedBox(height: 16),
               const JadwalSidangCalendar(),
               const SizedBox(height: 16),
+              const PengumumanHighlight(),
+              const SizedBox(height: 16),
               _buildHorizontalSection('Portal Mahkamah Konstitusi', [
                 _buildImageCard(
                   'https://picsum.photos/250?image=10',
@@ -134,10 +138,11 @@ class HomePage extends ConsumerWidget {
   }
 
   Future<void> _refresh(WidgetRef ref) async {
-    ref.invalidate(bannerListProvider);
-
     final now = DateTime.now();
+
+    ref.invalidate(bannerListProvider);
     ref.invalidate(jadwalSidangProvider((month: now.month, year: now.year)));
+    ref.invalidate(pengumumanHighlightProvider);
 
     try {
       await Future.wait([
@@ -145,6 +150,7 @@ class HomePage extends ConsumerWidget {
         ref.read(
           jadwalSidangProvider((month: now.month, year: now.year)).future,
         ),
+        ref.read(pengumumanHighlightProvider.future),
       ]);
     } catch (_) {}
   }

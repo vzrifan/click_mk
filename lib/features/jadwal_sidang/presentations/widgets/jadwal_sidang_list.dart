@@ -15,13 +15,11 @@ class JadwalSidangList extends ConsumerWidget {
 
     return Column(
       children: [
-        // ── Search ────────────────────────────
         SearchField(
           hintText: 'Cari jadwal sidang...',
           onChanged: (value) => notifier.setSearch(value),
         ),
 
-        // ── Konten ────────────────────────────
         Expanded(
           child: asyncState.when(
             loading: () => const Center(child: CircularProgressIndicator()),

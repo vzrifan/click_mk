@@ -3,6 +3,7 @@ import 'package:click_mk/features/anotasi/presentation/pages/anotasi_page.dart';
 import 'package:click_mk/features/hakim/presentation/pages/hakim_detail_page.dart';
 import 'package:click_mk/features/ikhtisar/data/models/ikhtisar_jenis.dart';
 import 'package:click_mk/features/jadwal_sidang/presentations/pages/jadwal_sidang_page.dart';
+import 'package:click_mk/features/pengumuman/presentation/pages/pengumuman_page.dart';
 import 'package:click_mk/features/putusan/data/models/putusan_jenis.dart';
 import 'package:click_mk/features/putusan/presentation/pages/putusan_page.dart';
 import 'package:click_mk/features/risalah/data/models/risalah_jenis.dart';
@@ -80,6 +81,11 @@ GoRouter createAppRouter() {
                     path: AppRoutes.jadwalSidang,
                     name: AppRoutes.jadwalSidangName,
                     builder: (context, state) => const JadwalSidangPage(),
+                  ),
+                  GoRoute(
+                    path: AppRoutes.pengumuman,
+                    name: AppRoutes.pengumumanName,
+                    builder: (context, state) => const PengumumanPage(),
                   ),
                 ],
               ),

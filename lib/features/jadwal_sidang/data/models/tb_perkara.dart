@@ -18,8 +18,8 @@ class TbKuasa {
 
 class TbPermohonan {
   final String permohonan;
-  final String pemohon; // ⬅ langsung dari JSON
-  final List<TbPemohon> pemohonList; // dari tb_pemohon
+  final String pemohon;
+  final List<TbPemohon> pemohonList;
   final List<TbKuasa> kuasa;
 
   const TbPermohonan({
@@ -49,7 +49,7 @@ class TbPermohonan {
 class TbPerkara {
   final String nomorPerkara;
   final String pokokPerkara;
-  final String pemohon; // ⬅ langsung dari JSON
+  final String pemohon;
   final String jenisPerkara;
   final int panel;
   final List<TbPermohonan> permohonan;
@@ -63,7 +63,6 @@ class TbPerkara {
     required this.permohonan,
   });
 
-  /// Nama pemohon utama — prioritas: field `pemohon` langsung.
   String get pemohonUtama {
     if (pemohon.isNotEmpty) return pemohon;
     if (permohonan.isNotEmpty) {

@@ -39,7 +39,6 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Header ──────────────────────────
             Row(
               children: [
                 if (jadwal.jenisSidang.isNotEmpty)
@@ -85,7 +84,6 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
             ),
             const SizedBox(height: 10),
 
-            // ── Tanggal ──────────────────────────
             _buildRow(
               label: 'Tanggal',
               value: _formatTanggalPanjang(jadwal.date),
@@ -93,7 +91,6 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
             ),
             const SizedBox(height: 8),
 
-            // ── No Perkara ───────────────────────
             _buildRow(
               label: 'Perkara',
               value: perkara?.nomorPerkara ?? '-',
@@ -101,13 +98,11 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
             ),
             const SizedBox(height: 8),
 
-            // ── Pokok Perkara ────────────────────
             if (perkara != null && perkara.pokokPerkara.isNotEmpty) ...[
               _buildRow(label: 'Pokok', value: perkara.pokokPerkara),
               const SizedBox(height: 8),
             ],
 
-            // ── Pemohon (collapsible) ────────────
             if (pemohonList.isNotEmpty) ...[
               _buildCollapsibleRow(
                 label: 'Pemohon',
@@ -119,7 +114,6 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
               const SizedBox(height: 8),
             ],
 
-            // ── Kuasa (collapsible) ──────────────
             if (kuasaList.isNotEmpty) ...[
               _buildCollapsibleRow(
                 label: 'Kuasa',
@@ -130,11 +124,9 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
               const SizedBox(height: 8),
             ],
 
-            // ── Acara ────────────────────────────
             _buildRow(label: 'Acara', value: jadwal.acaraSidang),
             const SizedBox(height: 8),
 
-            // ── Tempat ───────────────────────────
             if (jadwal.tempat.isNotEmpty) ...[
               _buildRow(
                 label: 'Tempat',
@@ -143,7 +135,6 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
               const SizedBox(height: 8),
             ],
 
-            // ── Keterangan ───────────────────────
             _buildRow(
               label: 'Keterangan',
               value: jadwal.statusPercepatMsg.isNotEmpty
@@ -151,7 +142,6 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
                   : '-',
             ),
 
-            // ── Lacak Perkara ────────────────────
             if (jadwal.hasTracking) ...[
               const SizedBox(height: 12),
               InkWell(
@@ -190,8 +180,6 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
     );
   }
 
-  /// Baris collapsible: tampil maksimal [_maxVisible] item,
-  /// sisanya di balik tombol "Lihat N lainnya".
   Widget _buildCollapsibleRow({
     required String label,
     required List<String> items,
@@ -205,7 +193,6 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Label
         SizedBox(
           width: 90,
           child: Text(
@@ -216,7 +203,6 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
         const Text(':', style: TextStyle(fontSize: 12, color: Colors.grey)),
         const SizedBox(width: 8),
 
-        // Items
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,7 +220,6 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
                   ),
                 ),
 
-              // Tombol expand/collapse
               if (hasMore)
                 GestureDetector(
                   onTap: onToggle,
@@ -302,7 +287,6 @@ class _JadwalSidangCardState extends State<JadwalSidangCard> {
     );
   }
 
-  /// Format: "Senin, 05 Oktober 2026, 10:30 WIB"
   String _formatTanggalPanjang(DateTime? dt) {
     if (dt == null) return '-';
     final wib = dt.toUtc().add(const Duration(hours: 7));
