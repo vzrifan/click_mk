@@ -205,6 +205,7 @@ class PutusanList extends ConsumerWidget {
                                         PutusanDownloadButton(
                                           url: p.supportingFile,
                                           downloadCount: p.downloadCount,
+                                          linkHit: p.linkHit,
                                         ),
                                       ],
                                     ),

@@ -1,16 +1,18 @@
 import 'package:click_mk/core/constants/app_colors.dart';
 import 'package:click_mk/core/utils/date_formatter.dart';
+import 'package:click_mk/core/utils/hit_helper.dart';
 import 'package:click_mk/core/utils/url_helper.dart';
 import 'package:click_mk/features/ikhtisar/data/models/ikhtisar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class IkhtisarCard extends StatelessWidget {
+class IkhtisarCard extends ConsumerWidget {
   const IkhtisarCard({super.key, required this.ikhtisar});
 
   final Ikhtisar ikhtisar;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final perkara = ikhtisar.tbPerkara;
 
     return Card(
@@ -104,6 +106,8 @@ class IkhtisarCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                   onTap: ikhtisar.hasPdf
                       ? () async {
+                          HitHelper.fire(ref, ikhtisar.linkHit);
+
                           final messenger = ScaffoldMessenger.of(context);
                           final ok = await UrlHelper.open(
                             ikhtisar.supportingFile,

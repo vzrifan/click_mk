@@ -1,17 +1,21 @@
 import 'package:click_mk/core/utils/date_formatter.dart';
+import 'package:click_mk/core/utils/hit_helper.dart';
 import 'package:click_mk/core/utils/url_helper.dart';
 import 'package:click_mk/features/anotasi/data/models/anotasi.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AnotasiCard extends StatelessWidget {
+class AnotasiCard extends ConsumerWidget {
   const AnotasiCard({super.key, required this.anotasi});
 
   final Anotasi anotasi;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () async {
+        HitHelper.fire(ref, anotasi.linkHit);
+
         final messenger = ScaffoldMessenger.of(context);
         final ok = await UrlHelper.open(anotasi.supportingFile);
         if (!context.mounted) return;

@@ -1,17 +1,19 @@
 import 'package:click_mk/core/constants/app_colors.dart';
 import 'package:click_mk/core/utils/date_formatter.dart';
+import 'package:click_mk/core/utils/hit_helper.dart';
 import 'package:click_mk/core/utils/url_helper.dart';
 import 'package:click_mk/features/pengumuman/data/models/jenis_supporting_file.dart';
 import 'package:click_mk/features/pengumuman/data/models/pengumuman.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PengumumanCard extends StatelessWidget {
+class PengumumanCard extends ConsumerWidget {
   const PengumumanCard({super.key, required this.pengumuman});
 
   final Pengumuman pengumuman;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       elevation: 1,
       margin: EdgeInsets.zero,
@@ -19,7 +21,10 @@ class PengumumanCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: pengumuman.hasFile
-            ? () => UrlHelper.open(pengumuman.supportingFile)
+            ? () {
+                HitHelper.fire(ref, pengumuman.linkHitClean);
+                UrlHelper.open(pengumuman.supportingFile);
+              }
             : null,
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -44,7 +49,6 @@ class PengumumanCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 6),
-
                     _buildMetadata(),
                   ],
                 ),

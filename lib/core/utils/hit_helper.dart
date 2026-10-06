@@ -12,8 +12,9 @@ class HitHelper {
       try {
         final client = ref.read(dioClientProvider);
         await client.patch<dynamic>(linkHit);
+        debugPrint('Hit sent: $linkHit');
       } catch (e) {
-        debugPrint('HitHelper error: $e');
+        debugPrint('Hit error: $e');
       }
     });
   }

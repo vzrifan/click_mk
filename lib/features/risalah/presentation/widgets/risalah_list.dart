@@ -1,4 +1,5 @@
 import 'package:click_mk/core/utils/date_formatter.dart';
+import 'package:click_mk/core/utils/hit_helper.dart';
 import 'package:click_mk/core/utils/url_helper.dart';
 import 'package:click_mk/core/widgets/pagination_bar.dart';
 import 'package:click_mk/core/widgets/search_field.dart';
@@ -116,13 +117,13 @@ class RisalahList extends ConsumerWidget {
   }
 }
 
-class _RisalahCard extends StatelessWidget {
+class _RisalahCard extends ConsumerWidget {
   const _RisalahCard({required this.risalah});
 
   final Risalah risalah;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -183,6 +184,7 @@ class _RisalahCard extends StatelessWidget {
               style: const TextStyle(fontSize: 12),
             ),
             const SizedBox(height: 6),
+
             Row(
               children: [
                 const Icon(
@@ -203,7 +205,10 @@ class _RisalahCard extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
-                  onPressed: () => UrlHelper.open(risalah.supportingFile),
+                  onPressed: () {
+                    HitHelper.fire(ref, risalah.linkHit);
+                    UrlHelper.open(risalah.supportingFile);
+                  },
                   icon: const Icon(Icons.picture_as_pdf_outlined, size: 16),
                   label: const Text('File PDF', style: TextStyle(fontSize: 12)),
                   style: OutlinedButton.styleFrom(

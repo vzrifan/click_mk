@@ -1,21 +1,28 @@
+import 'package:click_mk/core/utils/hit_helper.dart';
 import 'package:click_mk/core/utils/url_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PutusanDownloadButton extends StatelessWidget {
+class PutusanDownloadButton extends ConsumerWidget {
   const PutusanDownloadButton({
     super.key,
     required this.url,
+    required this.linkHit, // ⬅ tambah
     required this.downloadCount,
   });
 
   final String url;
+  final String linkHit;
   final int downloadCount;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       borderRadius: BorderRadius.circular(4),
       onTap: () async {
+        // Hit counter dulu (fire-and-forget)
+        HitHelper.fire(ref, linkHit);
+
         final messenger = ScaffoldMessenger.of(context);
         final ok = await UrlHelper.open(url);
         if (!context.mounted) return;

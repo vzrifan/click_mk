@@ -49,7 +49,7 @@ class _IkhtisarPageState extends State<IkhtisarPage>
       appBar: AppBar(
         backgroundColor: AppColors.primaryDark,
         foregroundColor: Colors.white,
-        title: const Text('Ikhtisar Putusan'),
+        title: const Text('Ikhtisar'),
         bottom: TabBar(
           controller: _tab,
           indicatorColor: Colors.white,

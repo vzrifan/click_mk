@@ -43,4 +43,11 @@ class Pengumuman {
     if (value is int) return value;
     return int.tryParse(value.toString()) ?? 0;
   }
+
+  String get linkHitClean {
+    return linkHit.replaceAllMapped(
+      RegExp(r'/download/\d+/(\d+)$'),
+      (m) => '/download/${m.group(1)}',
+    );
+  }
 }
