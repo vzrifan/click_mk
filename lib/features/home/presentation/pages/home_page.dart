@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:click_mk/core/constants/app_colors.dart';
 import 'package:click_mk/core/router/routes.dart';
 import 'package:click_mk/features/berita/presentation/widgets/berita_section.dart';
@@ -84,60 +83,6 @@ class HomePage extends ConsumerWidget {
               const SizedBox(height: 16),
               const BeritaSection(),
               const SizedBox(height: 16),
-              _buildHorizontalSection('Portal Mahkamah Konstitusi', [
-                _buildImageCard(
-                  'https://picsum.photos/250?image=10',
-                  'simpel.mkri.id',
-                  'Sistem Informasi Penanganan Perkara Elektronik',
-                ),
-                _buildImageCard(
-                  'https://picsum.photos/250?image=11',
-                  'Pilkada Serentak 2020',
-                  'Portal Informasi Perkara Pemilihan Umum 2019',
-                ),
-                _buildImageCard(
-                  'https://picsum.photos/250?image=12',
-                  'Pengujian UU',
-                  'Portal Informasi Pengujian Undang-undang',
-                ),
-              ]),
-              const SizedBox(height: 8),
-              _buildHorizontalSection('Administrasi Umum Mahkamah Konstitusi', [
-                _buildImageCard(
-                  'https://picsum.photos/250?image=13',
-                  'Informasi',
-                  'Informasi lainnya terkait Mahkamah Konstitusi',
-                ),
-                _buildImageCard(
-                  'https://picsum.photos/250?image=14',
-                  'Permohonan Informasi',
-                  'Pejabat Pengelola Informasi dan Dokumentasi (PPID)',
-                ),
-                _buildImageCard(
-                  'https://picsum.photos/250?image=15',
-                  'Akuntabilitas',
-                  'Informasi akuntabilitas publik Mahkamah Konstitusi',
-                ),
-              ]),
-              const SizedBox(height: 8),
-              _buildHorizontalSection('Publikasi Mahkamah Konstitusi', [
-                _buildImageCard(
-                  'https://picsum.photos/250?image=16',
-                  'Majalah Konstitusi',
-                  'Majalah bulanan Mahkamah Konstitusi',
-                ),
-                _buildImageCard(
-                  'https://picsum.photos/250?image=17',
-                  'Buku MK',
-                  'Kumpulan buku terbitan Mahkamah Konstitusi',
-                ),
-                _buildImageCard(
-                  'https://picsum.photos/250?image=18',
-                  'Jurnal Konstitusi',
-                  'Jurnal ilmiah tentang konstitusi',
-                ),
-              ]),
-              const SizedBox(height: 24),
             ],
           ),
         ),
@@ -284,76 +229,5 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildHorizontalSection(String title, List<Widget> items) {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: AppColors.text,
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 240,
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              scrollDirection: Axis.horizontal,
-              itemCount: items.length,
-              separatorBuilder: (context, index) => const SizedBox(width: 16),
-              itemBuilder: (context, index) => items[index],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildImageCard(String imageUrl, String title, String subtitle) {
-    return SizedBox(
-      width: 140,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: CachedNetworkImage(
-              imageUrl: imageUrl,
-              height: 140,
-              width: 140,
-              fit: BoxFit.cover,
-              placeholder: (_, _) => Container(color: Colors.grey.shade100),
-              errorWidget: (_, _, _) => Container(
-                color: Colors.grey.shade200,
-                child: const Icon(Icons.broken_image, color: Colors.grey),
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            subtitle,
-            style: const TextStyle(fontSize: 11, color: Colors.grey),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
-  }
 }
