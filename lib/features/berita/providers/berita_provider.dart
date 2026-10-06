@@ -1,3 +1,4 @@
+import 'package:click_mk/features/berita/data/models/berita_detail.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:click_mk/core/network/dio_provider.dart';
 import 'package:click_mk/features/berita/data/models/berita.dart';
@@ -266,3 +267,11 @@ final beritaListProvider =
     AsyncNotifierProvider.autoDispose<BeritaListNotifier, BeritaListState>(
       BeritaListNotifier.new,
     );
+
+final beritaDetailProvider = FutureProvider.family<BeritaDetail, int>((
+  ref,
+  id,
+) async {
+  final repo = ref.watch(beritaRepositoryProvider);
+  return repo.getDetail(id);
+});

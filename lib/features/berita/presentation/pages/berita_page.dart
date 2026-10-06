@@ -1,5 +1,5 @@
 import 'package:click_mk/core/constants/app_colors.dart';
-import 'package:click_mk/core/utils/url_helper.dart';
+import 'package:click_mk/core/router/routes.dart';
 import 'package:click_mk/core/widgets/pagination_bar.dart';
 import 'package:click_mk/core/widgets/search_field.dart';
 import 'package:click_mk/features/berita/data/models/berita_kategori.dart';
@@ -9,6 +9,7 @@ import 'package:click_mk/features/berita/presentation/widgets/berita_chip_bar.da
 import 'package:click_mk/features/berita/presentation/widgets/berita_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class BeritaPage extends ConsumerWidget {
   const BeritaPage({super.key});
@@ -135,7 +136,12 @@ class BeritaPage extends ConsumerWidget {
                     itemBuilder: (context, i) => BeritaCard(
                       berita: state.items[i],
                       width: double.infinity,
-                      onTap: () => UrlHelper.open(state.items[i].webUrl),
+                      onTap: () => context.pushNamed(
+                        AppRoutes.beritaDetailName,
+                        pathParameters: {
+                          'id': state.items[i].beritaId.toString(),
+                        },
+                      ),
                     ),
                   ),
                 );

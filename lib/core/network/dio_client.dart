@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+
 import 'exceptions/api_exception.dart';
 
 class DioClient {
@@ -63,6 +64,24 @@ class DioClient {
   }) async {
     try {
       return await _dio.put<T>(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+      );
+    } on DioException catch (e) {
+      throw ApiException.fromDioException(e);
+    }
+  }
+
+  Future<Response<T>> patch<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    try {
+      return await _dio.patch<T>(
         path,
         data: data,
         queryParameters: queryParameters,

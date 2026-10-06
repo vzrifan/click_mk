@@ -1,6 +1,5 @@
 import 'package:click_mk/core/constants/app_colors.dart';
 import 'package:click_mk/core/router/routes.dart';
-import 'package:click_mk/core/utils/url_helper.dart';
 import 'package:click_mk/features/berita/providers/berita_provider.dart';
 import 'package:click_mk/features/berita/presentation/widgets/berita_card.dart';
 import 'package:click_mk/features/berita/presentation/widgets/berita_chip_bar.dart';
@@ -148,7 +147,10 @@ class BeritaSection extends ConsumerWidget {
                   berita: state.items[i],
                   width: 240,
                   height: BeritaCard.sectionHeight,
-                  onTap: () => UrlHelper.open(state.items[i].webUrl),
+                  onTap: () => context.pushNamed(
+                    AppRoutes.beritaDetailName,
+                    pathParameters: {'id': state.items[i].beritaId.toString()},
+                  ),
                 ),
               ),
             ),

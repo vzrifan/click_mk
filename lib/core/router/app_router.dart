@@ -1,5 +1,6 @@
 import 'package:click_mk/core/router/main_scaffold.dart';
 import 'package:click_mk/features/anotasi/presentation/pages/anotasi_page.dart';
+import 'package:click_mk/features/berita/presentation/pages/berita_detail_page.dart';
 import 'package:click_mk/features/berita/presentation/pages/berita_page.dart';
 import 'package:click_mk/features/hakim/presentation/pages/hakim_detail_page.dart';
 import 'package:click_mk/features/ikhtisar/data/models/ikhtisar_jenis.dart';
@@ -101,6 +102,19 @@ GoRouter createAppRouter() {
                     path: AppRoutes.berita,
                     name: AppRoutes.beritaName,
                     builder: (context, state) => const BeritaPage(),
+                  ),
+                  GoRoute(
+                    path: AppRoutes.beritaDetail,
+                    name: AppRoutes.beritaDetailName,
+                    builder: (context, state) {
+                      final id = int.tryParse(state.pathParameters['id'] ?? '');
+                      if (id == null) {
+                        return const Scaffold(
+                          body: Center(child: Text('ID berita tidak valid')),
+                        );
+                      }
+                      return BeritaDetailPage(id: id);
+                    },
                   ),
                 ],
               ),
