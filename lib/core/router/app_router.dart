@@ -22,7 +22,7 @@ import 'package:click_mk/core/router/routes.dart';
 import 'package:click_mk/features/hakim/presentation/pages/hakim_page.dart';
 import 'package:click_mk/features/home/presentation/pages/home_page.dart';
 import 'package:click_mk/features/hubungi_mk/hubungi_mk_page.dart';
-import 'package:click_mk/features/peradilan/peradilan_page.dart';
+import 'package:click_mk/features/peradilan/presentation/pages/peradilan_page.dart';
 
 import '../../features/ikhtisar/presentation/pages/ikhtisar_page.dart';
 
