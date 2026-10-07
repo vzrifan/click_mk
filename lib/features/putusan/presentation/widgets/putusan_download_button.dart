@@ -7,7 +7,7 @@ class PutusanDownloadButton extends ConsumerWidget {
   const PutusanDownloadButton({
     super.key,
     required this.url,
-    required this.linkHit, // ⬅ tambah
+    required this.linkHit,
     required this.downloadCount,
   });
 
@@ -20,7 +20,6 @@ class PutusanDownloadButton extends ConsumerWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(4),
       onTap: () async {
-        // Hit counter dulu (fire-and-forget)
         HitHelper.fire(ref, linkHit);
 
         final messenger = ScaffoldMessenger.of(context);
