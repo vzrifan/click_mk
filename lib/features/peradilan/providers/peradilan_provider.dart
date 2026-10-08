@@ -88,3 +88,27 @@ final peradilanJabatanProvider =
     AsyncNotifierProvider.autoDispose<PeradilanJabatanNotifier, List<Jabatan>>(
       PeradilanJabatanNotifier.new,
     );
+
+final peradilanEmblemHymneMarsProvider =
+    AsyncNotifierProvider.autoDispose<
+      PeradilanContentNotifier,
+      PeradilanContent
+    >(() => PeradilanContentNotifier((repo) => repo.getEmblemHymneMars()));
+
+final peradilanJanjiHakimKonstitusiProvider =
+    AsyncNotifierProvider.autoDispose<
+      PeradilanContentNotifier,
+      PeradilanContent
+    >(() => PeradilanContentNotifier((repo) => repo.getJanjiHakimKonstitusi()));
+
+final peradilanLokasiProvider =
+    AsyncNotifierProvider.autoDispose<
+      PeradilanContentNotifier,
+      PeradilanContent
+    >(() => PeradilanContentNotifier((repo) => repo.getLokasi()));
+
+final peradilanTugasPokokFungsiProvider =
+    AsyncNotifierProvider.autoDispose<
+      PeradilanContentNotifier,
+      PeradilanContent
+    >(() => PeradilanContentNotifier((repo) => repo.getTugasPokokFungsi()));

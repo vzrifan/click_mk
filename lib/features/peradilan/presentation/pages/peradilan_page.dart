@@ -2,12 +2,14 @@ import 'package:click_mk/core/constants/app_colors.dart';
 import 'package:click_mk/core/utils/date_formatter.dart';
 import 'package:click_mk/features/peradilan/data/models/peradilan_content.dart';
 import 'package:click_mk/features/peradilan/data/models/peradilan_menu.dart';
+import 'package:click_mk/features/peradilan/presentation/pages/mkmk_page.dart';
+import 'package:click_mk/features/peradilan/presentation/pages/pejabat_page.dart';
 import 'package:click_mk/features/peradilan/presentation/widgets/struktur_organisasi_view.dart';
 import 'package:click_mk/features/peradilan/providers/peradilan_provider.dart';
 import 'package:click_mk/features/peradilan/presentation/widgets/peradilan_content_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PeradilanPage extends ConsumerStatefulWidget {
@@ -37,32 +39,37 @@ class _PeradilanPageState extends ConsumerState<PeradilanPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundSecondary,
-      appBar: AppBar(
-        backgroundColor: AppColors.primaryDark,
-        foregroundColor: Colors.white,
-        title: const Text('Peradilan'),
-        bottom: TabBar(
-          controller: _tab,
-          isScrollable: true,
-          tabAlignment: TabAlignment.start,
-          indicatorColor: Colors.white,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white70,
-          labelStyle: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 12,
+      body: NestedScrollView(
+        // ⬇ AppBar pinned → tidak bisa tertutup platform view
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            pinned: true,
+            backgroundColor: AppColors.primaryDark,
+            foregroundColor: Colors.white,
+            title: const Text('Peradilan'),
+            bottom: TabBar(
+              controller: _tab,
+              isScrollable: true,
+              tabAlignment: TabAlignment.start,
+              indicatorColor: Colors.white,
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.white70,
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 12,
+              ),
+              tabs: PeradilanMenu.values
+                  .map((menu) => Tab(text: menu.title))
+                  .toList(),
+            ),
           ),
-          tabs: PeradilanMenu.values
-              .map((menu) => Tab(text: menu.title))
+        ],
+        body: TabBarView(
+          controller: _tab,
+          children: PeradilanMenu.values
+              .map((menu) => _buildTabContent(menu))
               .toList(),
         ),
-      ),
-      body: TabBarView(
-        controller: _tab,
-        physics: const NeverScrollableScrollPhysics(),
-        children: PeradilanMenu.values
-            .map((menu) => _buildTabContent(menu))
-            .toList(),
       ),
     );
   }
@@ -83,14 +90,34 @@ class _PeradilanPageState extends ConsumerState<PeradilanPage>
           menu: menu,
           provider: peradilanKedudukanKewenanganProvider,
         );
+      case PeradilanMenu.emblemHymneMars:
+        return _ContentTab(
+          menu: menu,
+          provider: peradilanEmblemHymneMarsProvider,
+        );
       case PeradilanMenu.strukturOrganisasi:
-        return StrukturOrganisasiView();
-      default:
-        return _PlaceholderTab(menu: menu);
+        return const StrukturOrganisasiView(); // TODO: Add Struktur Organisasi
+      case PeradilanMenu.profilPejabat:
+        return const PejabatPage();
+      case PeradilanMenu.sumpahJanjiHakim:
+        return _ContentTab(
+          menu: menu,
+          provider: peradilanJanjiHakimKonstitusiProvider,
+        );
+      case PeradilanMenu.lokasi:
+        return _ContentTab(menu: menu, provider: peradilanLokasiProvider);
+      case PeradilanMenu.tugasPokokFungsi:
+        return _ContentTab(
+          menu: menu,
+          provider: peradilanTugasPokokFungsiProvider,
+        );
+      case PeradilanMenu.majelisKehormatan:
+        return const MkmkPage();
     }
   }
 }
 
+// ── Tab Info (sejarah singkat) ──────────────────────
 class _InfoTab extends ConsumerWidget {
   const _InfoTab();
 
@@ -178,6 +205,7 @@ class _InfoTab extends ConsumerWidget {
   }
 }
 
+// ── Tab konten generik ──────────────────────────────
 class _ContentTab extends ConsumerWidget {
   const _ContentTab({required this.menu, required this.provider});
 
@@ -195,76 +223,16 @@ class _ContentTab extends ConsumerWidget {
         error: err,
         onRetry: () => ref.read(provider.notifier).refresh(),
       ),
-      data: (content) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: double.infinity,
-            color: Colors.white,
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-            child: Text(
-              menu.title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.text,
-                height: 1.3,
-              ),
-            ),
-          ),
-
-          Expanded(
-            child: PeradilanContentView(
-              content: content,
-              onRefresh: () => ref.read(provider.notifier).refresh(),
-            ),
-          ),
-        ],
+      data: (content) => PeradilanContentView(
+        title: menu.title,
+        content: content,
+        onRefresh: () => ref.read(provider.notifier).refresh(),
       ),
     );
   }
 }
 
-class _PlaceholderTab extends StatelessWidget {
-  const _PlaceholderTab({required this.menu});
-
-  final PeradilanMenu menu;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              menu.icon,
-              size: 64,
-              color: AppColors.primary.withValues(alpha: 0.5),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              menu.title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: AppColors.text,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Konten belum tersedia',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
+// ── Error view ──────────────────────────────────────
 class _ErrorView extends StatelessWidget {
   const _ErrorView({required this.error, required this.onRetry});
 

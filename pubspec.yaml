@@ -41,12 +41,13 @@ dependencies:
   url_launcher: ^6.3.2
   cached_network_image: ^4.0.4
   just_audio: ^0.10.6
-  flutter_widget_from_html_core: ^0.17.4
+  flutter_widget_from_html: ^0.17.4
   youtube_player_iframe: ^6.0.2
   intl: ^0.20.3
   flutter_localizations:
     sdk: flutter
   graphview: ^1.5.1
+  webview_flutter: ^4.14.1
 
 dev_dependencies:
   flutter_test:

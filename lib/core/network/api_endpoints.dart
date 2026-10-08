@@ -23,6 +23,20 @@ class ApiEndpoints {
   static const peradilanVisiMisi = '/peradilan/visi-misi';
   static const peradilanKedudukanKewenangan = '/peradilan/kedudukan-kewenangan';
   static const peradilanJabatan = '/peradilan/jabatan/all';
+  static const peradilanPejabat = '/peradilan/pejabat';
+  static const peradilanLhkpn = '/peradilan/lhkpn';
+  static const peradilanEmblemHymneMars = '/peradilan/emblem-hymne-mars';
+  static const peradilanJanjiHakimKonstitusi =
+      '/peradilan/janji-hakim-konstitusi';
+  static const peradilanLokasi = '/peradilan/lokasi';
+  static const peradilanTugasPokokFungsi = '/peradilan/tugas-pokok-fungsi';
+  static const peradilanProfilMkmk = '/peradilan/profil-mkmk';
+  static const peradilanPeraturanMkmk = '/peradilan/peraturan-mkmk';
+  static const peradilanKeputusanMkmk = '/peradilan/keputusan-mkmk';
+  static const peradilanPelaporanMkmk = '/peradilan/pelaporan-mkmk';
+  static const peradilanJadwalSidangMkmk = '/peradilan/jadwal-sidang-mkmk';
+  static const peradilanRisalahSidangMkmk = '/peradilan/risalah-sidang-mkmk';
+  static const peradilanHistoriKelembagaan = '/peradilan/histori-mkmk';
 
   // Hakim
   static const hakim = '/hakim';

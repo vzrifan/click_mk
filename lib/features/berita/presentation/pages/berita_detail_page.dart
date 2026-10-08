@@ -7,7 +7,7 @@ import 'package:click_mk/features/berita/providers/berita_provider.dart';
 import 'package:click_mk/features/berita/presentation/widgets/berita_image_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BeritaDetailPage extends ConsumerStatefulWidget {

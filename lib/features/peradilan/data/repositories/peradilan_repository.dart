@@ -38,4 +38,16 @@ class PeradilanRepository {
         .map((e) => Jabatan.fromJson(e as Map<String, dynamic>))
         .toList();
   }
+
+  Future<PeradilanContent> getEmblemHymneMars() =>
+      _getContent(ApiEndpoints.peradilanEmblemHymneMars);
+
+  Future<PeradilanContent> getJanjiHakimKonstitusi() =>
+      _getContent(ApiEndpoints.peradilanJanjiHakimKonstitusi);
+
+  Future<PeradilanContent> getLokasi() =>
+      _getContent(ApiEndpoints.peradilanLokasi);
+
+  Future<PeradilanContent> getTugasPokokFungsi() =>
+      _getContent(ApiEndpoints.peradilanTugasPokokFungsi);
 }

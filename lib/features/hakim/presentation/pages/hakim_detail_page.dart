@@ -5,7 +5,7 @@ import 'package:click_mk/features/hakim/presentation/widgets/hakim_photo.dart';
 import 'package:click_mk/features/hakim/providers/hakim_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HakimDetailPage extends ConsumerWidget {
