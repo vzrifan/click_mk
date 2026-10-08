@@ -27,7 +27,6 @@ final mkmkPeraturanProvider = FutureProvider.autoDispose<List<MkmkPeraturan>>((
   return repo.getPeraturan();
 });
 
-// State untuk keputusan (dengan pagination + search)
 class MkmkKeputusanState {
   final List<MkmkKeputusan> items;
   final int currentPage;
@@ -117,7 +116,6 @@ final mkmkKeputusanProvider =
       MkmkKeputusanState
     >(MkmkKeputusanNotifier.new);
 
-// ── Pelaporan ─────────────────────────────
 class MkmkPelaporanState {
   final List<MkmkPelaporan> items;
   final int currentPage;
@@ -207,7 +205,6 @@ final mkmkPelaporanProvider =
       MkmkPelaporanState
     >(MkmkPelaporanNotifier.new);
 
-// ── Jadwal Sidang ─────────────────────────
 class MkmkJadwalSidangState {
   final List<MkmkJadwalSidang> items;
   final int currentPage;

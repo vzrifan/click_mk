@@ -22,7 +22,6 @@ class PejabatCard extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              // Foto
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: SizedBox(
@@ -55,7 +54,6 @@ class PejabatCard extends StatelessWidget {
               ),
               const SizedBox(width: 12),
 
-              // Info
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -17,7 +17,6 @@ class MkmkPage extends StatelessWidget {
       length: 7,
       child: Column(
         children: [
-          // ── TabBar (scrollable) ────────────
           Material(
             color: Colors.white,
             child: TabBar(
@@ -42,7 +41,6 @@ class MkmkPage extends StatelessWidget {
             ),
           ),
 
-          // ── TabBarView ─────────────────────
           const Expanded(
             child: TabBarView(
               children: [

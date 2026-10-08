@@ -40,7 +40,6 @@ class _PeradilanPageState extends ConsumerState<PeradilanPage>
     return Scaffold(
       backgroundColor: AppColors.backgroundSecondary,
       body: NestedScrollView(
-        // ⬇ AppBar pinned → tidak bisa tertutup platform view
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
             pinned: true,
@@ -117,7 +116,6 @@ class _PeradilanPageState extends ConsumerState<PeradilanPage>
   }
 }
 
-// ── Tab Info (sejarah singkat) ──────────────────────
 class _InfoTab extends ConsumerWidget {
   const _InfoTab();
 
@@ -205,7 +203,6 @@ class _InfoTab extends ConsumerWidget {
   }
 }
 
-// ── Tab konten generik ──────────────────────────────
 class _ContentTab extends ConsumerWidget {
   const _ContentTab({required this.menu, required this.provider});
 
@@ -232,7 +229,6 @@ class _ContentTab extends ConsumerWidget {
   }
 }
 
-// ── Error view ──────────────────────────────────────
 class _ErrorView extends StatelessWidget {
   const _ErrorView({required this.error, required this.onRetry});
 

@@ -16,7 +16,6 @@ class PejabatProfilTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Header: foto + nama + jabatan ──
           Container(
             width: double.infinity,
             color: Colors.white,
@@ -85,7 +84,6 @@ class PejabatProfilTab extends StatelessWidget {
           ),
           const SizedBox(height: 8),
 
-          // ── Info dasar ───────────────────────
           if (pejabat.alamat.isNotEmpty || pejabat.agama.isNotEmpty)
             _buildSection(
               title: 'Data Pribadi',
@@ -98,15 +96,12 @@ class PejabatProfilTab extends StatelessWidget {
               ],
             ),
 
-          // ── Profil (HTML) ────────────────────
           if (pejabat.profilHtml.isNotEmpty)
             _buildHtmlSection('Profil', pejabat.profilHtml),
 
-          // ── Pendidikan (HTML) ────────────────
           if (pejabat.pendidikanHtml.isNotEmpty)
             _buildHtmlSection('Pendidikan', pejabat.pendidikanHtml),
 
-          // ── Karir (HTML) ─────────────────────
           if (pejabat.karirHtml.isNotEmpty)
             _buildHtmlSection('Karir', pejabat.karirHtml),
 

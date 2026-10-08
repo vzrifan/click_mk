@@ -21,13 +21,11 @@ class MkmkRisalahSidang {
     required this.supportingAudioFile,
   });
 
-  /// Cek apakah PDF benar-benar ada (bukan URL "null").
   bool get hasPdf {
     final url = supportingFile.trim();
     return url.isNotEmpty && !url.endsWith('/null');
   }
 
-  /// Cek apakah audio benar-benar ada.
   bool get hasAudio {
     final url = supportingAudioFile.trim();
     return url.isNotEmpty && !url.endsWith('/null');

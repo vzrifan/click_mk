@@ -23,7 +23,6 @@ class PejabatRepository {
   final DioClient _client;
   PejabatRepository(this._client);
 
-  /// GET /peradilan/pejabat?jabatan=...&status=...
   Future<List<Pejabat>> getList({
     required PejabatJabatan jabatan,
     required PejabatStatus status,
@@ -38,18 +37,15 @@ class PejabatRepository {
         .toList();
   }
 
-  /// GET /peradilan/pejabat/:id
   Future<Pejabat> getDetail(int id) async {
     final response = await _client.get<Map<String, dynamic>>(
       '${ApiEndpoints.peradilanPejabat}/$id',
     );
     final data = response.data ?? const {};
-    // Response dibungkus `items` (objek, bukan array)
     final obj = (data['items'] as Map<String, dynamic>?) ?? data;
     return Pejabat.fromJson(obj);
   }
 
-  /// GET /peradilan/lhkpn/:id
   Future<List<Lhkpn>> getLhkpn(int pejabatId) async {
     final response = await _client.get<Map<String, dynamic>>(
       '${ApiEndpoints.peradilanLhkpn}/$pejabatId',

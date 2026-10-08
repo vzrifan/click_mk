@@ -34,7 +34,6 @@ class PeradilanContentView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Judul ────────────────────────────
           if (title != null && title!.isNotEmpty) ...[
             Text(
               title!,
@@ -48,7 +47,6 @@ class PeradilanContentView extends StatelessWidget {
             const SizedBox(height: 16),
           ],
 
-          // ── Konten HTML ──────────────────────
           HtmlWidget(
             content.contentHtml,
             textStyle: const TextStyle(
@@ -66,7 +64,6 @@ class PeradilanContentView extends StatelessWidget {
               return false;
             },
             customWidgetBuilder: (element) {
-              // ── Sembunyikan link "Lihat Peta Lebih Besar" ──
               if (element.localName == 'small') {
                 final text = element.text.toLowerCase();
                 if (text.contains('lihat peta lebih besar') ||
@@ -75,18 +72,15 @@ class PeradilanContentView extends StatelessWidget {
                 }
               }
 
-              // ── Handle iframe ────────────────────
               if (element.localName != 'iframe') return null;
 
               final src = element.attributes['src'] ?? '';
 
-              // YouTube
               final youtubeId = _extractYoutubeId(src);
               if (youtubeId != null) {
                 return _YoutubeThumbnail(videoId: youtubeId);
               }
 
-              // Google Maps → tombol "Lihat Peta"
               if (src.contains('google.com/maps') ||
                   src.contains('maps.google.com') ||
                   src.contains('maps.google.co.id')) {
@@ -112,33 +106,24 @@ class PeradilanContentView extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Tombol "Lihat Peta" — buka Google Maps di browser/app
-// ─────────────────────────────────────────────────────────────────
 class _MapButton extends StatelessWidget {
   const _MapButton({required this.mapsUrl});
   final String mapsUrl;
 
-  /// Ambil URL Google Maps yang bersih (tanpa parameter embed).
-  /// Convert ke format yang bisa dibuka di app Google Maps.
   String _cleanMapsUrl() {
-    // Kalau URL asli dari embed, ambil parameter `q` atau `ll`
     final uri = Uri.tryParse(mapsUrl);
 
-    // Coba `q` dulu (query pencarian)
     final q = uri?.queryParameters['q'];
     if (q != null && q.isNotEmpty) {
       return 'https://www.google.com/maps/search/?api=1&query='
           '${Uri.encodeComponent(q)}';
     }
 
-    // Coba `ll` (koordinat)
     final ll = uri?.queryParameters['ll'];
     if (ll != null && ll.isNotEmpty) {
       return 'https://www.google.com/maps/search/?api=1&query=$ll';
     }
 
-    // Fallback: URL asli
     return mapsUrl.replaceFirst('http://', 'https://');
   }
 
@@ -173,9 +158,6 @@ class _MapButton extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// YouTube — thumbnail + halaman player
-// ─────────────────────────────────────────────────────────────────
 class _YoutubeThumbnail extends StatelessWidget {
   const _YoutubeThumbnail({required this.videoId});
   final String videoId;

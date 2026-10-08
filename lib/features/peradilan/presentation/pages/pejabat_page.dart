@@ -15,7 +15,6 @@ class PejabatPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Judul
           Container(
             width: double.infinity,
             color: Colors.white,
@@ -31,7 +30,6 @@ class PejabatPage extends StatelessWidget {
             ),
           ),
 
-          // Section (langsung, tanpa Expanded)
           const _PejabatSection(
             title: 'Sekjen',
             jabatan: PejabatJabatan.sekjen,
@@ -48,9 +46,6 @@ class PejabatPage extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Section per jabatan (Sekjen, Panitera)
-// ─────────────────────────────────────────────────────────────────
 class _PejabatSection extends ConsumerStatefulWidget {
   const _PejabatSection({required this.title, required this.jabatan});
 
@@ -87,7 +82,6 @@ class _PejabatSectionState extends ConsumerState<_PejabatSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Judul section ───────────────────
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             child: Text(
@@ -100,7 +94,6 @@ class _PejabatSectionState extends ConsumerState<_PejabatSection> {
             ),
           ),
 
-          // ── Tab: aktif / sebelumnya ─────────
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Row(
@@ -121,7 +114,6 @@ class _PejabatSectionState extends ConsumerState<_PejabatSection> {
           ),
           const SizedBox(height: 12),
 
-          // ── List pejabat ────────────────────
           asyncData.when(
             loading: () => const Padding(
               padding: EdgeInsets.symmetric(vertical: 32),

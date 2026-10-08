@@ -36,8 +36,6 @@ class MkmkPelaporan {
     );
   }
 
-  /// Parse array of object `[{id, nama, hapus}]` → `["nama1", "nama2"]`.
-  /// Juga handle kalau API kirim array of string.
   static List<String> _parseNamaList(dynamic value) {
     if (value is! List) return const [];
     return value

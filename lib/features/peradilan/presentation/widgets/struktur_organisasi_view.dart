@@ -7,17 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphview/GraphView.dart';
 
-// ─────────────────────────────────────────────────────────────────
-// Constants
-// ─────────────────────────────────────────────────────────────────
 const double _kMinScale = 0.10;
 const double _kMaxScale = 3.00;
 const double _kNodeWidth = 100.0;
 const double _kPadding = 32.0;
 
-// ─────────────────────────────────────────────────────────────────
-// Graph data wrapper — graph + relations
-// ─────────────────────────────────────────────────────────────────
 class _GraphData {
   final Graph graph;
   final Map<Edge, JabatanRelation> relations;
@@ -26,9 +20,6 @@ class _GraphData {
   _GraphData(this.graph, this.relations, this.jabatanByKey);
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Main widget
-// ─────────────────────────────────────────────────────────────────
 class StrukturOrganisasiView extends ConsumerStatefulWidget {
   const StrukturOrganisasiView({super.key});
 
@@ -157,7 +148,6 @@ class _StrukturOrganisasiViewState
                 ),
               ),
 
-              // ── Legend ─────────────────────────────
               const _LegendRow(),
 
               Padding(
@@ -251,9 +241,6 @@ class _StrukturOrganisasiViewState
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Graph container
-// ─────────────────────────────────────────────────────────────────
 class _GraphContainer extends StatelessWidget {
   const _GraphContainer({
     required this.viewerKey,
@@ -343,9 +330,6 @@ class _GraphContainer extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Node widget
-// ─────────────────────────────────────────────────────────────────
 class _OrgNode extends StatelessWidget {
   const _OrgNode({
     required this.jabatan,
@@ -400,9 +384,6 @@ class _OrgNode extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Sub-graph bottom sheet
-// ─────────────────────────────────────────────────────────────────
 class _SubGraphSheet extends StatefulWidget {
   const _SubGraphSheet({required this.rootNode, required this.allJabatan});
 
@@ -605,9 +586,6 @@ class _SubGraphSheetState extends State<_SubGraphSheet> {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Sheet header
-// ─────────────────────────────────────────────────────────────────
 class _SheetHeader extends StatelessWidget {
   const _SheetHeader({required this.label});
   final String label;
@@ -643,9 +621,6 @@ class _SheetHeader extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Zoom controls
-// ─────────────────────────────────────────────────────────────────
 class _ZoomControls extends StatelessWidget {
   const _ZoomControls({
     required this.onZoomIn,
@@ -700,9 +675,6 @@ class _ZoomButton extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Legend
-// ─────────────────────────────────────────────────────────────────
 class _LegendRow extends StatelessWidget {
   const _LegendRow();
 
@@ -805,9 +777,6 @@ void _drawDashedPath(
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Edge renderer — 3 gaya garis
-// ─────────────────────────────────────────────────────────────────
 class _OrgEdgeRenderer extends EdgeRenderer {
   _OrgEdgeRenderer({required this.isHorizontal, required this.relations});
 
@@ -849,7 +818,6 @@ class _OrgEdgeRenderer extends EdgeRenderer {
     }
 
     if (relation.isSolid) {
-      // Garis solid
       final solidPaint = Paint()
         ..color = relation.color
         ..strokeWidth = 1.5
@@ -857,7 +825,6 @@ class _OrgEdgeRenderer extends EdgeRenderer {
 
       canvas.drawPath(path, solidPaint);
     } else {
-      // Garis putus-putus manual
       final dashedPaint = Paint()
         ..color = relation.color
         ..strokeWidth = 1.2
@@ -877,9 +844,6 @@ class _OrgEdgeRenderer extends EdgeRenderer {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────────────────────────────
 Paint _edgePaint() => Paint()
   ..color = AppColors.border
   ..strokeWidth = 1.2

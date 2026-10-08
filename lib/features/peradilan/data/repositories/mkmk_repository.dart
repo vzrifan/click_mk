@@ -12,7 +12,6 @@ class MkmkRepository {
   final DioClient _client;
   MkmkRepository(this._client);
 
-  // ── Profil ─────────────────────────────
   Future<List<MkmkProfil>> getProfil() async {
     final response = await _client.get<Map<String, dynamic>>(
       ApiEndpoints.peradilanProfilMkmk,
@@ -23,7 +22,6 @@ class MkmkRepository {
         .toList();
   }
 
-  // ── Peraturan ──────────────────────────
   Future<List<MkmkPeraturan>> getPeraturan() async {
     final response = await _client.get<Map<String, dynamic>>(
       ApiEndpoints.peradilanPeraturanMkmk,
@@ -34,7 +32,6 @@ class MkmkRepository {
         .toList();
   }
 
-  // ── Keputusan ──────────────────────────
   Future<List<MkmkKeputusan>> getKeputusan({
     int currentPage = 1,
     int itemsPerPage = 10,

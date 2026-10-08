@@ -8,7 +8,6 @@ final pejabatRepositoryProvider = Provider<PejabatRepository>((ref) {
   return PejabatRepository(ref.watch(dioClientProvider));
 });
 
-// ── List pejabat (family by jabatan + status) ──────
 final pejabatListProvider = FutureProvider.family
     .autoDispose<
       List<Pejabat>,
@@ -18,7 +17,6 @@ final pejabatListProvider = FutureProvider.family
       return repo.getList(jabatan: args.jabatan, status: args.status);
     });
 
-// ── Detail pejabat (family by id) ─────────────────
 final pejabatDetailProvider = FutureProvider.family.autoDispose<Pejabat, int>((
   ref,
   id,
@@ -27,7 +25,6 @@ final pejabatDetailProvider = FutureProvider.family.autoDispose<Pejabat, int>((
   return repo.getDetail(id);
 });
 
-// ── LHKPN (family by pejabat id) ──────────────────
 final pejabatLhkpnProvider = FutureProvider.family
     .autoDispose<List<Lhkpn>, int>((ref, id) async {
       final repo = ref.watch(pejabatRepositoryProvider);

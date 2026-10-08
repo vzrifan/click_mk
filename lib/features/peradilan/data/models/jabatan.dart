@@ -1,24 +1,14 @@
 import 'package:flutter/material.dart';
 
-// ─────────────────────────────────────────────────────────────────
-// Jenis relasi antar-jabatan
-// ─────────────────────────────────────────────────────────────────
 enum JabatanRelation {
-  /// Garis komando — atasan langsung ke bawahan struktural.
   komando,
 
-  /// Garis koordinasi — hubungan setara / lintas fungsi.
   koordinasi,
 
-  /// Garis pengawas — fungsi pengawasan (Inspektorat).
   pengawas,
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Key jabatan
-// ─────────────────────────────────────────────────────────────────
 enum JabatanKey {
-  // ── Pimpinan & Hakim ────────────────────────────
   ketuaHakim('KETUA_MAHKAMAH_KONSTITUSI', 'Ketua Mahkamah Konstitusi'),
   wakilHakim(
     'WAKIL_KETUA_MAHKAMAH_KONSTITUSI',
@@ -27,21 +17,18 @@ enum JabatanKey {
   hakimKonstitusi('HAKIM_KONSTITUSI', 'Hakim Konstitusi'),
   dewanEtik('DEWAN_ETIK', 'Dewan Etik (MKMK)'),
 
-  // ── Kesekjenan ──────────────────────────────────
   sekjen('SEKRETARIS_JENDERAL', 'Sekretaris Jenderal'),
   panitera('PANITERA', 'Panitera'),
   paniteraMuda1('PANITERA_MUDA_1', 'Panitera Muda I'),
   paniteraMuda2('PANITERA_MUDA_2', 'Panitera Muda II'),
   paniteraMuda3('PANITERA_MUDA_3', 'Panitera Muda III'),
 
-  // ── Inspektorat ─────────────────────────────────
   inspektur('INSPEKTUR', 'Inspektur'),
   kepalaSubbagianTataUsahaInspektorat(
     'KEPALA_SUBBAGIAN_TATA_USAHA_INSPEKTORAT',
     'Subbagian Tata Usaha Inspektorat',
   ),
 
-  // ── Biro Perencanaan dan Keuangan ───────────────
   kepalaBiroPerencanaanKeuangan(
     'KEPALA_BIRO_PERENCANAAN_DAN_KEUANGAN',
     'Kepala Biro Perencanaan dan Keuangan',
@@ -72,7 +59,6 @@ enum JabatanKey {
     'Subbagian Akuntansi dan Laporan Keuangan',
   ),
 
-  // ── Biro SDM & Organisasi ───────────────────────
   kepalaBiroSdmOrganisasi(
     'KEPALA_BIRO_SUMBER_DAYA_MANUSIA_DAN_ORGANISASI',
     'Kepala Biro Sumber Daya Manusia dan Organisasi',
@@ -106,7 +92,6 @@ enum JabatanKey {
     'Subbagian Fasilitasi Reformasi Birokrasi',
   ),
 
-  // ── Biro Hukum & Administrasi Kepaniteraan ──────
   kepalaBiroHukumAdministrasiKepaniteraan(
     'KEPALA_BIRO_HUKUM_DAN_ADMINISTRASI_KEPANITERAAN',
     'Kepala Biro Hukum dan Administrasi Kepaniteraan',
@@ -124,7 +109,6 @@ enum JabatanKey {
     'Subbagian Pelayanan Teknis Persidangan',
   ),
 
-  // ── Biro Humas & Protokol ───────────────────────
   kepalaBiroHumasProtokol(
     'KEPALA_BIRO_HUBUNGAN_MASYARAKAT_DAN_PROTOKOL',
     'Kepala Biro Hubungan Masyarakat dan Protokol',
@@ -163,7 +147,6 @@ enum JabatanKey {
   ),
   kepalaSubbagianProtokol('KEPALA_SUBBAGIAN_PROTOKOL', 'Subbagian Protokol'),
 
-  // ── Biro Umum ───────────────────────────────────
   kepalaBiroUmum('KEPALA_BIRO_UMUM', 'Kepala Biro Umum'),
   kepalaBagianRumahTanggaArsipEkspedisi(
     'KEPALA_BAGIAN_RUMAH_TANGGA_ARSIP_DAN_EKSPEDISI',
@@ -194,7 +177,6 @@ enum JabatanKey {
     'Subbagian Akuntansi dan Laporan BMN',
   ),
 
-  // ── Pusat Penelitian & Pengkajian Perkara ───────
   kepalaPusatPenelitian(
     'KEPALA_PUSAT_PENELITIAN_DAN_PENGKAJIAN_PERKARA_DAN_PENGELOLAAN_PERPUSTAKAAN',
     'Kepala Pusat Penelitian dan Pengkajian Perkara',
@@ -212,7 +194,6 @@ enum JabatanKey {
     'Subbagian Tata Usaha',
   ),
 
-  // ── Pusat Teknologi Informasi & Komunikasi ──────
   kepalaPusatTik(
     'KEPALA_PUSAT_TEKNOLOGI_INFORMASI_DAN_KOMUNIKASI',
     'Kepala Pusat Teknologi Informasi dan Komunikasi',
@@ -230,7 +211,6 @@ enum JabatanKey {
     'Subbagian Tata Usaha',
   ),
 
-  // ── Pusat Pendidikan Pancasila & Konstitusi ─────
   kepalaPusatPusdik(
     'KEPALA_PUSAT_PENDIDIKAN_PANCASILA_DAN_KONSTITUSI',
     'Kepala Pusat Pendidikan Pancasila dan Konstitusi',
@@ -271,9 +251,6 @@ enum JabatanKey {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Model Jabatan (dari API)
-// ─────────────────────────────────────────────────────────────────
 class Jabatan {
   final String jabatan;
   final int pejabatId;
@@ -312,16 +289,11 @@ class Jabatan {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Tree node
-// ─────────────────────────────────────────────────────────────────
 class JabatanNode {
   final String key;
   final List<String> aliases;
   final List<JabatanNode> children;
 
-  /// Jenis relasi dari parent ke node ini.
-  /// Root tidak punya relasi (default komando).
   final JabatanRelation relation;
 
   const JabatanNode({
@@ -339,9 +311,6 @@ class JabatanNode {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Edge tambahan (di luar tree) — koordinasi & pengawas
-// ─────────────────────────────────────────────────────────────────
 class JabatanExtraEdge {
   final String from;
   final String to;
@@ -354,9 +323,6 @@ class JabatanExtraEdge {
   });
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Struktur Organisasi MKRI
-// ─────────────────────────────────────────────────────────────────
 class JabatanTree {
   JabatanTree._();
 
@@ -365,7 +331,6 @@ class JabatanTree {
       key: 'KETUA_MAHKAMAH_KONSTITUSI',
       aliases: ['KETUA_HAKIM', 'KETUA'],
       children: [
-        // ── Pimpinan & Hakim ────────────────────
         JabatanNode(
           key: 'WAKIL_KETUA_MAHKAMAH_KONSTITUSI',
           aliases: ['WAKIL_HAKIM', 'WAKIL_KETUA'],
@@ -379,10 +344,9 @@ class JabatanTree {
         JabatanNode(
           key: 'DEWAN_ETIK',
           aliases: ['MKMK'],
-          relation: JabatanRelation.koordinasi, // MKMK bukan bawahan struktural
+          relation: JabatanRelation.koordinasi,
         ),
 
-        // ── Kesekjenan ──────────────────────────
         JabatanNode(
           key: 'SEKRETARIS_JENDERAL',
           aliases: ['SEKJEN', 'SEKRETARIS_JENDRAL'],
@@ -657,11 +621,10 @@ class JabatanTree {
           ],
         ),
 
-        // ── Kepaniteraan ────────────────────────
         JabatanNode(
           key: 'PANITERA',
           relation: JabatanRelation
-              .koordinasi, // Panitera bukan bawahan struktural Sekjen
+              .koordinasi,
           children: [
             JabatanNode(
               key: 'PANITERA_MUDA_1',
@@ -684,10 +647,7 @@ class JabatanTree {
     ),
   ];
 
-  /// Edge tambahan yang bukan bagian dari tree struktural —
-  /// digambar sebagai garis koordinasi / pengawas.
   static const List<JabatanExtraEdge> extraEdges = [
-    // ── Koordinasi antar-lembaga / fungsi ──────
     JabatanExtraEdge(
       from: 'DEWAN_ETIK',
       to: 'HAKIM_KONSTITUSI',
@@ -714,7 +674,6 @@ class JabatanTree {
       relation: JabatanRelation.koordinasi,
     ),
 
-    // ── Pengawas (Inspektorat ke unit kerja) ───
     JabatanExtraEdge(
       from: 'INSPEKTUR',
       to: 'KEPALA_BIRO_PERENCANAAN_DAN_KEUANGAN',
@@ -743,22 +702,18 @@ class JabatanTree {
   ];
 }
 
-// ─────────────────────────────────────────────────────────────────
-// Helper: warna & style per relasi
-// ─────────────────────────────────────────────────────────────────
 extension JabatanRelationStyle on JabatanRelation {
   Color get color {
     switch (this) {
       case JabatanRelation.komando:
-        return const Color(0xFF222222); // hitam
+        return const Color(0xFF222222);
       case JabatanRelation.koordinasi:
-        return const Color(0xFF1565C0); // biru
+        return const Color(0xFF1565C0);
       case JabatanRelation.pengawas:
-        return const Color(0xFFEF6C00); // orange
+        return const Color(0xFFEF6C00);
     }
   }
 
-  /// true = garis solid, false = putus-putus.
   bool get isSolid => this == JabatanRelation.komando;
 
   String get label {
